@@ -13,30 +13,32 @@ public abstract class Criatura {
     private int felicidade;
     private int saude;
 
-    public Criatura(String nome,
-            int idade,
-            int nivel,
-            int experiencia,
-            int energia,
-            int saciedade,
-            int felicidade,
-            int saude) {
+    public Criatura(String nome) {
 
         this.nome = nome;
-        this.idade = idade;
-        this.nivel = nivel;
-        this.experiencia = experiencia;
-        this.energia = energia;
-        this.saciedade = saciedade;
-        this.felicidade = felicidade;
-        this.saude = saude;
+        this.idade = 0;
+        this.nivel = 0;
+        this.experiencia = 0;
+        this.energia = 99;
+        this.saciedade = 99;
+        this.felicidade = 99;
+        this.saude = 99;
     }
 
     public void exibeInformacoes() {
 
-        System.out.printf("Nome: %s\nIdade: %d\nNivel: %d\nExperiência: %d\nEnergia: %d\nSaciedade: %d\nFeliciade: %d\nSaude: %d\n", nome, idade, nivel, experiencia, energia, saciedade, felicidade, saude);
+        System.out.println("Criatura criada com sucesso!");
+        System.out.println("╔══════════════════════════════╗");
+        System.out.println("║"+       nome        +"║");
+        System.out.println("╠══════════════════════════════╣");
+        System.out.println("║ Idade:            ║");
+        System.out.println("║ Nivel:             ║");
+        System.out.println("║ Experiencia:         ║");
+        System.out.println("║ Saciedade:                  ║");
+        System.out.println("║ Felicidade:                  ║");
+        System.out.println("║ Saude:                  ║");
+        System.out.println("╚══════════════════════════════╝");
 
-        // usar aquelas barrinhas aqui.
     }
 
     public void exibeEstadoAtual() {
@@ -45,6 +47,8 @@ public abstract class Criatura {
         System.out.println("Saciedade: " + Saciedade.estadoSaciedade(saciedade));
         System.out.println("Felicidade: " + Felicidade.estadoFelicidade(felicidade));
         System.out.println("Energia: " + Energia.estadoEnergia(energia));
+
+        // usar aquelas barrinhas aqui.
     }
 
 }
