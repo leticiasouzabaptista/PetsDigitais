@@ -2,15 +2,21 @@ package br.trabalho.util;
 
 public class Formatacao {
 
-    public static void centralizar(String texto, int largura) {
+    public static void imprimirCentralizado(String texto, int largura) {
+        int esquerda = (largura - texto.length()) / 2;
+        int direita = largura - texto.length() - esquerda;
 
-        int espacos = (largura - texto.length()) / 2;
+        System.out.printf("║%" + esquerda + "s%s%" + direita + "s║%n",
+                "", texto, "");
+    }
 
-        if (espacos < 0) {
-            espacos = 0;
-        }
+    private static final int LARGURA = 31;
 
-        System.out.printf("%" + (espacos + texto.length()) + "s%n", texto);
+    public static void imprimirLinha(String titulo, Object valor) {
+        String texto = titulo + valor;
+        System.out.printf("║%-" + LARGURA + "s║%n", texto);
     }
 
 }
+
+

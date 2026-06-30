@@ -14,43 +14,74 @@ import br.trabalho.repository.CriaturaRepository;
 
 public class CriaturaService {
 
+    private CriaturaRepository repository;
+
+    public CriaturaService(){
+        repository = new CriaturaRepository();
+    }
 
     public void criaCriatura(){
 
         System.out.print("Nome: ");
         String nome = Leituras.leFrase();
 
-        System.out.print("Escolha uma especie: ");
+        System.out.print("╔════════════════════════╗\n");
+        System.out.print("║   Escolha uma Espécie  ║\n");
+        System.out.print("╚════════════════════════╝");
 
-        System.out.print("1. Draconis\nCriaturas descendentes dos antigos dragões. Possuem grande vitalidade e aprendem habilidades mais rapidamente que as demais espécies.\n");
-        System.out.print("2. Lumini\nCriaturas formadas por energia luminosa. Recuperam a felicidade rapidamente, porém se cansam com maior facilidade.\n");
-        System.out.print("3. Fungari\nSeres inspirados em fungos mágicos. Possuem grande resistência à fome e ao cansaço, mas evoluem mais lentamente.\n");
-        System.out.print("4. Aquari\nCriaturas adaptadas aos ambientes aquáticos. Recuperam sua saúde mais rapidamente que as demais espécies.\n");
-        System.out.print("5. Mecanis\nCriaturas parcialmente artificiais. Necessitam de manutenção frequente e possuem elevada resistência física.\n");
-        System.out.print("6. Draconis Celstial\nUma rara linhagem dos Draconis. Todo Draconis Celestial compartilha as características dos Draconis comuns, porém possui habilidades adicionais relacionadas à energia celestial.\n");
+        System.out.print("\n1. Draconis\nCriaturas descendentes dos antigos dragões. Possuem grande vitalidade e aprendem habilidades mais rapidamente que as demais espécies.\n");
+        System.out.print("\n2. Lumini\nCriaturas formadas por energia luminosa. Recuperam a felicidade rapidamente, porém se cansam com maior facilidade.\n");
+        System.out.print("\n3. Fungari\nSeres inspirados em fungos mágicos. Possuem grande resistência à fome e ao cansaço, mas evoluem mais lentamente.\n");
+        System.out.print("\n4. Aquari\nCriaturas adaptadas aos ambientes aquáticos. Recuperam sua saúde mais rapidamente que as demais espécies.\n");
+        System.out.print("\n5. Mecanis\nCriaturas parcialmente artificiais. Necessitam de manutenção frequente e possuem elevada resistência física.\n");
+        System.out.print("\n6. Draconis Celstial\nUma rara linhagem dos Draconis. Todo Draconis Celestial compartilha as características dos Draconis comuns, porém possui habilidades adicionais relacionadas à energia celestial.\n");
 
-        int opcao = Leituras.leInt();
-        switch (opcao) {
-            case 1:
-                CriaturaRepository.salvaCriatura(new Draconis(nome));
+        boolean opcaoValida = false;
+        while(!opcaoValida){
+            
+            int opcao = Leituras.leInt();
+
+            switch (opcao) {
+            case 1:{
+                repository.salvaCriatura(new Draconis(nome));
+                repository.getCriatura(nome).exibeInformacoes();
+                opcaoValida = true;
                 break;
-            case 2:
-                CriaturaRepository.salvaCriatura(new Lumini(nome));
+                }
+            case 2:{
+                repository.salvaCriatura(new Lumini(nome));
+                repository.getCriatura(nome).exibeInformacoes();
+                opcaoValida = true;
                 break;
-            case 3:
-                CriaturaRepository.salvaCriatura(new Fungari(nome));
+                }
+            case 3:{
+                repository.salvaCriatura(new Fungari(nome));
+                repository.getCriatura(nome).exibeInformacoes();
+                opcaoValida = true;
                 break;
-            case 4:
-                CriaturaRepository.salvaCriatura(new Aquari(nome));
+                }
+            case 4:{
+                repository.salvaCriatura(new Aquari(nome));
+                repository.getCriatura(nome).exibeInformacoes();
+                opcaoValida = true;
                 break;
-            case 5:
-                CriaturaRepository.salvaCriatura(new Mecanis(nome));
+                }
+            case 5:{
+                repository.salvaCriatura(new Mecanis(nome));
+                repository.getCriatura(nome).exibeInformacoes();
+                opcaoValida = true;
                 break;
-            case 6:
-                CriaturaRepository.salvaCriatura(new DraconisCelestial(nome));
+                }
+            case 6:{
+                repository.salvaCriatura(new DraconisCelestial(nome));
+                repository.getCriatura(nome).exibeInformacoes();
+                opcaoValida = true;
                 break;
-            default:
+                }
+            default:{
                 System.out.println("Opção não válida.\nTente novamente.");
+                }
+            }
         }
 
         

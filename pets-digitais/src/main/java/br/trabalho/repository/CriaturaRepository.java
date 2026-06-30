@@ -1,19 +1,30 @@
 package br.trabalho.repository;
 
 import br.trabalho.model.*;
-import java.util.Map;
-import java.util.HashMap;
+import java.util.List;
+import java.util.ArrayList;
+
 
 public class CriaturaRepository {
 
-    private Map <Integer, Criatura> criaturas;
+    private List <Criatura> criaturas;
 
     public CriaturaRepository(){
-        criaturas = new HashMap<>();
+        criaturas = new ArrayList<>();
     }
 
-    public static void salvaCriatura(Criatura criatura){
-        criaturas.put(codigo, criatura);
+    public void salvaCriatura(Criatura criatura){
+        criaturas.add(criatura);
+    }
+
+    public Criatura getCriatura(String nome){
+
+        for(Criatura criatura: criaturas){
+            if(criatura.getNome().equals(nome))
+                return criatura;
+        }
+
+        return null;
     }
 
 }

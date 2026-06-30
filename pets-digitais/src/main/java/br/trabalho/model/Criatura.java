@@ -1,6 +1,7 @@
 package br.trabalho.model;
 
 import br.trabalho.Enum.*;
+import br.trabalho.util.Formatacao;
 
 public abstract class Criatura {
 
@@ -27,16 +28,15 @@ public abstract class Criatura {
 
     public void exibeInformacoes() {
 
-        System.out.println("Criatura criada com sucesso!");
         System.out.println("╔══════════════════════════════╗");
-        System.out.println("║"+       nome        +"║");
+        Formatacao.imprimirCentralizado(nome, 31);
         System.out.println("╠══════════════════════════════╣");
-        System.out.println("║ Idade:            ║");
-        System.out.println("║ Nivel:             ║");
-        System.out.println("║ Experiencia:         ║");
-        System.out.println("║ Saciedade:                  ║");
-        System.out.println("║ Felicidade:                  ║");
-        System.out.println("║ Saude:                  ║");
+        System.out.printf("║ Idade: %-21d ║%n", idade);
+        System.out.printf("║ Nível: %-21d ║%n", nivel);
+        System.out.printf("║ Experiência: %-15d ║%n", experiencia);
+        System.out.printf("║ Saciedade: %-17d ║%n", saciedade);
+        System.out.printf("║ Felicidade: %-16d ║%n", felicidade);
+        System.out.printf("║ Saúde: %-21d ║%n", saude);
         System.out.println("╚══════════════════════════════╝");
 
     }
@@ -49,6 +49,15 @@ public abstract class Criatura {
         System.out.println("Energia: " + Energia.estadoEnergia(energia));
 
         // usar aquelas barrinhas aqui.
+    }
+
+    public void calculaSaude(){
+
+        saude = (energia + saciedade + felicidade)/3;
+    }
+
+    public String getNome(){
+        return nome;
     }
 
 }
