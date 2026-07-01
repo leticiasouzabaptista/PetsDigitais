@@ -2,18 +2,17 @@ package br.trabalho.model;
 
 public class DraconisCelestial extends Criatura {
 
-    private static int totalDraconisCelestial;
+    private static int totalDraconisCelestial = 0;
 
-    public DraconisCelestial(String nome,
-            int idade, int nivel,
-            int experiencia,
-            int energia,
-            int saciedade,
-            int felicidade,
-            int saude) {
+    public DraconisCelestial(String nome) {
 
-        super(nome, idade, nivel, experiencia, energia, saciedade, felicidade, saude);
+        super(nome);
 
+        totalDraconisCelestial++;
+    }
+
+    public static int getTotalDraconisCelestial(){
+        return totalDraconisCelestial;
     }
 
 }
