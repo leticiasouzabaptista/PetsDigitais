@@ -3,7 +3,7 @@ package br.trabalho.model;
 import br.trabalho.Enum.*;
 import br.trabalho.util.Formatacao;
 
-public abstract class Criatura {
+public abstract class Criatura implements Atividades {
 
     private String nome;
     private int idade;
@@ -59,5 +59,79 @@ public abstract class Criatura {
     public String getNome(){
         return nome;
     }
+
+    public int getIdade(){
+        return idade;
+    }
+
+    public int getNivel(){
+        return nivel;
+    }
+
+    public int getExperiencia(){
+        return experiencia;
+    }
+
+    public int getEnergia(){
+        return energia;
+    }
+
+    public int getSaciedade(){
+        return saciedade;
+    }
+
+    public int getFelicidade(){
+        return felicidade;
+    }
+
+    public int getSaude(){
+        return saude;
+    }
+
+    public void setIdade(){
+        //this.experiencia += modificador;
+    }
+
+    public void setNivel(){
+        //this.experiencia += modificador;
+    }
+
+    public void setExperiencia(int modificador){
+        this.experiencia += modificador;
+    }
+
+    public void setEnergia(int modificador){
+        this.experiencia -= modificador;
+    }
+
+    public void setSaciedade(int modificador){
+        this.experiencia -= modificador;
+    }
+
+    public void setFelicidade(int modificador){
+        this.experiencia -= modificador;
+    }
+
+    public abstract DadosTreino getDadosTreino();
+    public abstract int dadosExplorar();
+    public abstract int dadosBrincar();
+    public abstract int dadosAlimentar();
+    public abstract int dadosDescansar();
+    public abstract int dadosDesafios();
+    public abstract int dadosEvoluir();
+
+    @Override
+    public void treinar(){
+        if(saude > 40 && energia >= 20 && saciedade >= 20){
+            setEnergia(getDadosTreino().energia());
+            setSaciedade(getDadosTreino().saciedade());
+            setExperiencia(getDadosTreino().experiencia());
+        }
+        else
+            System.out.println("Você não está disposto para brincar. Tente..."); //tentar criar uma execao de erro e ver o que esta abixo do esperado e dar uma solução. lembrar de adicionar nas outras atividades.
+    }
+
+
+    
 
 }
