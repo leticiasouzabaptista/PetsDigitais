@@ -1,5 +1,7 @@
 package br.trabalho.model;
 
+import java.util.List;
+
 public class Tempo {
 
     private int contaTempo;
@@ -10,14 +12,18 @@ public class Tempo {
         this.diasJogados = 0;
     }
 
-    public void passagemTempo(){
+    public void passagemTempo(List <Criatura> criaturas){
 
         this.contaTempo++;
 
         if(contaTempo == 5){
-            Criatura.atualizaTurno();
+
             contaTempo = 0;
             diasJogados++;
+
+            for(Criatura criatura: criaturas){
+                criatura.atualizaTurno();
+            }
         }
     }
 
