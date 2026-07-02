@@ -52,12 +52,63 @@ public abstract class Criatura {
     }
 
     public void calculaSaude(){
-
         saude = (energia + saciedade + felicidade)/3;
     }
 
     public String getNome(){
         return nome;
+    }
+
+    public int getIdade(){
+        return idade;
+    }
+
+    public int getNivel(){
+        return nivel;
+    }
+
+    public int getExperiencia(){
+        return experiencia;
+    }
+
+    public int getEnergia(){
+        return energia;
+    }
+
+    public int getSaciedade(){
+        return saciedade;
+    }
+
+    public int getFelicidade(){
+        return felicidade;
+    }
+
+    public int getSaude(){
+        return saude;
+    }
+
+    public void setIdade(){
+        //this.experiencia += modificador;
+    }
+
+    public void setNivel(){
+        //this.experiencia += modificador;
+    }
+
+    public void setExperiencia(int modificador){
+        this.experiencia += modificador - nivel/10;
+    }
+
+    public void setEnergia(int modificador){
+        this.experiencia -= modificador + nivel/10;
+    }
+
+    public void setSaciedade(int modificador){
+        this.experiencia -= modificador + nivel/10;
+    }
+
+    public void setFelicidade(int modificador){
+        this.experiencia -= modificador + nivel/10;
     }
 
 }
