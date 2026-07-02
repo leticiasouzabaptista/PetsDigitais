@@ -96,7 +96,11 @@ public abstract class Criatura {
     }
 
     public void setExperiencia(int modificador){
-        this.experiencia += modificador - nivel/10;
+
+        if(modificador >= 10)
+            this.experiencia += modificador;
+        else
+            this.experiencia += modificador - nivel/10;
     }
 
     public void setEnergia(int modificador){
