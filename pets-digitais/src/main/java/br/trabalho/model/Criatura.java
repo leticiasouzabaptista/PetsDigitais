@@ -111,4 +111,6 @@ public abstract class Criatura {
         this.experiencia -= modificador + nivel/10;
     }
 
+    public abstract void atualizaTurno();
+    
 }
