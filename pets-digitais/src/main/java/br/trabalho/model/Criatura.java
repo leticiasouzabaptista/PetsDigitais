@@ -113,4 +113,59 @@ public abstract class Criatura {
 
     public abstract void atualizaTurno();
     
+    public abstract DadosTreino getDadosTreino();
+    public abstract DadosExplorar getDadosExplorar();
+    public abstract DadosBrincar getDadosBrincar();
+    public abstract boolean podeComer(TipoAlimento tipo);
+    public abstract int dadosDescansar();
+    public abstract int dadosDesafios();
+    public abstract int dadosEvoluir();
+
+    public void treinar(){
+        if(saude > 40 && energia >= 20 && saciedade >= 20){
+            setEnergia(getDadosTreino().energia());
+            setSaciedade(getDadosTreino().saciedade());
+            setExperiencia(getDadosTreino().experiencia());
+        }
+        else
+            System.out.println("Você não está disposto para brincar. Tente..."); //tentar criar uma execao de erro e ver o que esta abixo do esperado e dar uma solução. lembrar de adicionar nas outras atividades.
+    }
+
+    public void explorar(){
+        if(saude > 20 && energia >= 15 && saciedade >= 15){
+            setEnergia(getDadosTreino().energia());
+            setSaciedade(getDadosTreino().saciedade());
+            setExperiencia(getDadosTreino().experiencia());
+        }
+        else
+            System.out.println("Você não está disposto para brincar. Tente..."); //tentar criar uma execao de erro e ver o que esta abixo do esperado e dar uma solução. lembrar de adicionar nas outras atividades.
+    }
+
+    public void brincar(){
+        if(saude > 20 && energia >= 50 && saciedade >= 50){
+            setEnergia(getDadosTreino().energia());
+            setSaciedade(getDadosTreino().saciedade());
+            setExperiencia(getDadosTreino().experiencia());
+        }
+        else
+            System.out.println("Você não está disposto para brincar. Tente..."); //tentar criar uma execao de erro e ver o que esta abixo do esperado e dar uma solução. lembrar de adicionar nas outras atividades.
+    }
+
+    public void alimentar(TipoAlimento alimento){
+        if(saude > 0 && saciedade < 90){
+            if(podeComer(alimento)){
+                if()
+            }
+        }
+    }
+
+    public void descansar(){
+        if(saude > 0 && energia < 90){
+            setEnergia(getDadosTreino().energia());
+            setSaciedade(getDadosTreino().saciedade());
+            setExperiencia(getDadosTreino().experiencia());
+        }
+        else
+            System.out.println("Você não está disposto para brincar. Tente..."); //tentar criar uma execao de erro e ver o que esta abixo do esperado e dar uma solução. lembrar de adicionar nas outras atividades.
+    }
 }
