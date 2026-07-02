@@ -16,6 +16,14 @@ public class Aquari extends Criatura {
         return totalAquari;
     }
 
+
+
+
+
+
+
+
+
     @Override
     public DadosTreino getDadosTreino() {
         return new DadosTreino(15, 10, 25);
