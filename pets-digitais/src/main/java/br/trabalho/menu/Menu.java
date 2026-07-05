@@ -28,19 +28,19 @@ public class Menu {
     }
 
     public void imprimePrimeiroMenu(){
-        System.out.println("1. Pets\n2. Estaísticas do Sistema\n3. Encerrar Sistema");
+        System.out.println("\n1. Pets\n2. Estaísticas do Sistema\n3. Encerrar Sistema");
     }
 
     public void imprimeCriaturasMenu(){
-        System.out.println("1. Criar Pet\n2. Importar Pets\n3. Exportar Pets\n4. Exibir Pets Cadastrados\n5. Remover Pet do Sistema\n6. Exibir Informacoes do Pet\n7. Exibir status completo do Pet\n8. Realizar Atividades com o Pet");
+        System.out.println("\n1. Criar Pet\n2. Importar Pets\n3. Exportar Pets\n4. Exibir Pets Cadastrados\n5. Remover Pet do Sistema\n6. Exibir Informacoes do Pet\n7. Exibir status completo do Pet\n8. Realizar Atividades com o Pet");
     }
 
     public void imprimeAtividadesMenu(){
-        System.out.println("1. Alimentar\n2. Brincar\n3. Dormir\n4. Treinar\n5. Participar de Desafio\n6. Realizar Atividade Especial");
+        System.out.println("\n1. Alimentar\n2. Brincar\n3. Dormir\n4. Treinar\n5. Participar de Desafio\n6. Realizar Atividade Especial");
     }
 
     public void imprimeEstatisticasMenu(){
-        System.out.println("1. Exibe estatísticas do sistema\n2. Exportar estatísticas do sistema");
+        System.out.println("\n1. Exibe estatísticas do sistema\n2. Exportar estatísticas do sistema");
     }
 
     public void criaturasMenu(){
@@ -132,7 +132,7 @@ public class Menu {
         boolean volta = false;
         while (!volta) {
 
-            this.imprimeCriaturasMenu();
+            this.imprimeEstatisticasMenu();
             opcao = Leituras.leInt();
 
             switch (opcao) {
@@ -140,10 +140,12 @@ public class Menu {
                     volta = true;
                     return;
                 case 1:
-                    repository.exibeEstatisticasSistema();
+                    criaturaService.brincar(null);
+                    //repository.exibeEstatisticasSistema();
                     break;
                 case 2:
-                    repository.expostarEstatiscicasSistema();
+                    criaturaService.brincar(null);
+                    //repository.expostarEstatiscicasSistema();
                     break;
                 default:{
                     System.out.print("\nOpcão não válida, tente novamente: ");
@@ -169,7 +171,7 @@ public class Menu {
                     this.estatisticasMenu();
                     break;
                 case 3:
-                    System.out.println("Sistema encerrado com sucesso!");
+                    System.out.println("\nSistema encerrado com sucesso!");
                     break;
                 default:{
                     System.out.print("\nOpcão não válida, tente novamente: ");
