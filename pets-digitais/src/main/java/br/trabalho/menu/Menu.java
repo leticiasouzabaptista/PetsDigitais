@@ -65,7 +65,7 @@ public class Menu {
                     criaturaService.criaturasCadastradas();
                     break;
                 case 4:
-                    criaturaService.criaCriatura();
+                    criaturaService.criaturasCadastradas();
                     break;
                 case 5:
                     criaturaService.removeCriatura(this.identificaCriatura());
