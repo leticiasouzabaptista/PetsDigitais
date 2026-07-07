@@ -13,8 +13,10 @@ public abstract class Criatura {
     private int saciedade;
     private int felicidade;
     private int saude;
+    private TipoCriatura tipoCriatura;
 
-    public Criatura(String nome) {
+
+    public Criatura(String nome, TipoCriatura tipoCriatura) {
 
         this.nome = nome;
         this.idade = 0;
@@ -24,6 +26,12 @@ public abstract class Criatura {
         this.saciedade = 99;
         this.felicidade = 99;
         this.saude = 99;
+        this.tipoCriatura = tipoCriatura;
+    }
+
+    @Override
+    public String toString(){
+        return "Nome: " + nome + "\nIdade: " + idade + "\nNivel: " + nivel;
     }
 
     public void exibeInformacoes() {
@@ -87,6 +95,10 @@ public abstract class Criatura {
         return saude;
     }
 
+    public TipoCriatura geTipoCriatura(){
+        return tipoCriatura;
+    }
+
     public void setIdade(){
         //this.experiencia += modificador;
     }
@@ -96,30 +108,123 @@ public abstract class Criatura {
     }
 
     public void setExperiencia(int modificador){
-        this.experiencia += modificador - nivel/10;
+        this.experiencia += modificador;
     }
 
     public void setEnergia(int modificador){
-        this.experiencia -= modificador + nivel/10;
+        this.experiencia += modificador;
     }
 
     public void setSaciedade(int modificador){
-        this.experiencia -= modificador + nivel/10;
+        this.experiencia += modificador;
     }
 
     public void setFelicidade(int modificador){
+        this.experiencia += modificador;
+    }
+
+    public void setSaude(int modificador){
+        this.saude += modificador;
+    }
+
+    public void setExperienciaAtividade(int modificador){
+        this.experiencia += modificador - nivel/10;
+    }
+
+    public void setEnergiaAtividade(int modificador){
+        this.experiencia -= modificador + nivel/10;
+    }
+
+    public void setSaciedadeAtividade(int modificador){
+        this.experiencia -= modificador + nivel/10;
+    }
+
+    public void setFelicidadeAtividade(int modificador){
         this.experiencia -= modificador + nivel/10;
     }
 
     public abstract void atualizaTurno();
+
+    public abstract boolean treinar();
+    public abstract boolean explorar();
+    public abstract boolean brincar();
+    public abstract boolean podeComer(TipoAlimento tipo);
+
+   public void alimentar(TipoAlimento alimento){
+        if(saude > 0 && saciedade < 90){
+            if(podeComer(alimento)){
+                if(estoque.podeRetirarEstoque(alimento))
+
+            }
+        }
+    }
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
     
-    public abstract DadosTreino getDadosTreino();
+    /* public abstract DadosTreino getDadosTreino();
     public abstract DadosExplorar getDadosExplorar();
     public abstract DadosBrincar getDadosBrincar();
     public abstract boolean podeComer(TipoAlimento tipo);
-    public abstract int dadosDescansar();
-    public abstract int dadosDesafios();
-    public abstract int dadosEvoluir();
+    //public abstract int dadosDescansar();
+    //public abstract int dadosDesafios();
+    //public abstract int dadosEvoluir();
 
     public void treinar(){
         if(saude > 40 && energia >= 20 && saciedade >= 20){
@@ -143,15 +248,17 @@ public abstract class Criatura {
 
     public void brincar(){
         if(saude > 20 && energia >= 50 && saciedade >= 50){
-            setEnergia(getDadosTreino().energia());
-            setSaciedade(getDadosTreino().saciedade());
-            setExperiencia(getDadosTreino().experiencia());
+            setEnergia(getDadosBrincar().energia());
+            setSaciedade(getDadosBrincar().saciedade());
+            setExperiencia(getDadosBrincar().felicidade());
+
+            System.out.println("Você está brincando!");
         }
         else
-            System.out.println("Você não está disposto para brincar. Tente..."); //tentar criar uma execao de erro e ver o que esta abixo do esperado e dar uma solução. lembrar de adicionar nas outras atividades.
+            System.out.println("Você não está disposto para brincar. Tente novamente..."); //tentar criar uma execao de erro e ver o que esta abixo do esperado e dar uma solução. lembrar de adicionar nas outras atividades.
     }
 
-    public void alimentar(TipoAlimento alimento){
+    /*public void alimentar(TipoAlimento alimento){
         if(saude > 0 && saciedade < 90){
             if(podeComer(alimento)){
                 if()
@@ -167,5 +274,5 @@ public abstract class Criatura {
         }
         else
             System.out.println("Você não está disposto para brincar. Tente..."); //tentar criar uma execao de erro e ver o que esta abixo do esperado e dar uma solução. lembrar de adicionar nas outras atividades.
-    }
+    } */
 }
