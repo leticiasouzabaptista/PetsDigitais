@@ -45,7 +45,7 @@ public class Menu {
     }
 
     public void imprimeAlimentosMenu(){
-        System.out.println("\n1. Frutas\n2. Carne\n3. Fótons\n4. Néctar Luminoso\n5. Cogmuelos\n6. Cristais Energéticos\n 7. Banquete Real");
+        System.out.println("\n1. Frutas\n2. Carne\n3. Fótons\n4. Néctar Luminoso\n5. Cogmuelos\n6. Cristais Energéticos\n7. Banquete Real");
     }
 
     public void criaturasMenu(){
@@ -105,7 +105,7 @@ public class Menu {
                     volta = true;
                     return;
                 case 1:
-                    criaturaService.brincar(this.identificaCriatura());
+                    this.alimentosMenu();
                     break;
                 case 2:
                     criaturaService.brincar(this.identificaCriatura());
@@ -163,7 +163,7 @@ public class Menu {
         boolean volta = false;
         while (!volta) {
 
-            this.alimentosMenu();
+            this.imprimeAlimentosMenu();
             opcao = Leituras.leInt();
 
             switch (opcao) {
