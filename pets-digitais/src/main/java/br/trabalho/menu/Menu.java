@@ -6,6 +6,7 @@ import br.trabalho.service.CriaturaService;
 import br.trabalho.util.Leituras;
 import br.trabalho.repository.*;
 import br.trabalho.model.Criatura;
+import br.trabalho.model.TipoAlimento;
 
 public class Menu {
 
@@ -41,6 +42,10 @@ public class Menu {
 
     public void imprimeEstatisticasMenu(){
         System.out.println("\n1. Exibe estatísticas do sistema\n2. Exportar estatísticas do sistema");
+    }
+
+    public void imprimeAlimentosMenu(){
+        System.out.println("\n1. Frutas\n2. Carne\n3. Fótons\n4. Néctar Luminoso\n5. Cogmuelos\n6. Cristais Energéticos\n 7. Banquete Real");
     }
 
     public void criaturasMenu(){
@@ -81,7 +86,6 @@ public class Menu {
                     break;
                 default:{
                     System.out.print("\nOpcão não válida, tente novamente: ");
-                    opcao = Leituras.leInt();
                     break;
                 }
             }
@@ -93,7 +97,7 @@ public class Menu {
         boolean volta = false;
         while (!volta) {
 
-            this.imprimeCriaturasMenu();
+            this.imprimeAtividadesMenu();
             opcao = Leituras.leInt();
 
             switch (opcao) {
@@ -120,7 +124,6 @@ public class Menu {
                     break;
                 default:{
                     System.out.print("\nOpcão não válida, tente novamente: ");
-                    opcao = Leituras.leInt();
                     break;
                 }
             }
@@ -149,7 +152,47 @@ public class Menu {
                     break;
                 default:{
                     System.out.print("\nOpcão não válida, tente novamente: ");
-                    opcao = Leituras.leInt();
+                    break;
+                }
+            }
+        }
+    }
+
+    public void alimentosMenu(){
+
+        boolean volta = false;
+        while (!volta) {
+
+            this.alimentosMenu();
+            opcao = Leituras.leInt();
+
+            switch (opcao) {
+                case -1:
+                    volta = true;
+                    return;
+                case 1:
+                    criaturaService.alimentar(this.identificaCriatura(), TipoAlimento.FRUTAS);
+                    break;
+                case 2:
+                    criaturaService.alimentar(this.identificaCriatura(), TipoAlimento.CARNE);
+                    break;
+                case 3:
+                    criaturaService.alimentar(this.identificaCriatura(), TipoAlimento.FOTONS);
+                    break;
+                case 4:
+                    criaturaService.alimentar(this.identificaCriatura(), TipoAlimento.NECTARLUMINOSO);
+                    break;
+                case 5:
+                    criaturaService.alimentar(this.identificaCriatura(), TipoAlimento.COGUMELOS);
+                    break;
+                case 6:
+                    criaturaService.alimentar(this.identificaCriatura(), TipoAlimento.CRISTAISENERGETICOS);
+                    break;
+                case 7:
+                    criaturaService.alimentar(this.identificaCriatura(), TipoAlimento.BANQUETEREAL);
+                    break;
+                default:{
+                    System.out.print("\nOpcão não válida, tente novamente: ");
                     break;
                 }
             }
@@ -175,7 +218,6 @@ public class Menu {
                     break;
                 default:{
                     System.out.print("\nOpcão não válida, tente novamente: ");
-                    opcao = Leituras.leInt();
                     break;
                 }      
             }
