@@ -11,7 +11,8 @@ public class Lumini extends Criatura implements HE_luminescente {
         totalLumini++;
     }
 
-    public static int getTotalLumini(){
+    @Override
+    public int getTotalEspecie(){
         return totalLumini;
     }
 

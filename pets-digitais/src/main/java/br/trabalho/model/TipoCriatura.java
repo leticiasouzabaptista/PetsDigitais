@@ -20,4 +20,8 @@ public enum TipoCriatura {
     public boolean podeComer(TipoAlimento alimento) {
         return alimentosPermitidos.contains(alimento);
     }
+
+    public List<TipoAlimento> getAlimentosPermitidos(){
+        return alimentosPermitidos;
+    }
 }

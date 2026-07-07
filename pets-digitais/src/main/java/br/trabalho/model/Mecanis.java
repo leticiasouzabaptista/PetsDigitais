@@ -11,7 +11,8 @@ public class Mecanis extends Criatura implements HE_mecanico {
         totalMecanis++;
     }
 
-    public static int getTotalMecanis(){
+    @Override
+    public int getTotalEspecie(){
         return totalMecanis;
     }
 

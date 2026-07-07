@@ -28,6 +28,8 @@ public abstract class Criatura {
         this.saude = 99;
         this.tipoCriatura = tipoCriatura;
     }
+    
+    public abstract int getTotalEspecie();
 
     @Override
     public String toString(){
@@ -95,7 +97,7 @@ public abstract class Criatura {
         return saude;
     }
 
-    public TipoCriatura geTipoCriatura(){
+    public TipoCriatura getTipoCriatura(){
         return tipoCriatura;
     }
 
@@ -152,8 +154,8 @@ public abstract class Criatura {
 
    public void alimentar(TipoAlimento alimento){
         if(saude > 0 && saciedade < 90){
-            if(podeComer(alimento)){
-                if(estoque.podeRetirarEstoque(alimento))
+            if(tipoCriatura.podeComer(alimento)){
+                
 
             }
         }

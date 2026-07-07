@@ -12,7 +12,8 @@ public class Aquari extends Criatura implements HE_aquatico {
         totalAquari++;
     }
 
-    public static int getTotalAquari() {
+    @Override
+    public int getTotalEspecie() {
         return totalAquari;
     }
 

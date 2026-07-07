@@ -10,7 +10,8 @@ public class Fungari extends Criatura {
         totalFungari++;
     }
 
-    public static int getTotalFungari(){
+    @Override
+    public int getTotalEspecie(){
         return totalFungari;
     }
 

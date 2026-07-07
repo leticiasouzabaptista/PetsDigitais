@@ -11,7 +11,8 @@ public class Draconis extends Criatura implements HE_voador {
         totalDraconis++;
     }
 
-    public static int getTotalDraconis(){
+    @Override
+    public int getTotalEspecie(){
         return totalDraconis;
     }
 

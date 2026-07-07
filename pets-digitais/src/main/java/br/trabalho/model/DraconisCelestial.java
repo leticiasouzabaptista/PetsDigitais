@@ -11,7 +11,8 @@ public class DraconisCelestial extends Criatura implements HE_voador, HE_autodid
         totalDraconisCelestial++;
     }
 
-    public static int getTotalDraconisCelestial(){
+    @Override
+    public int getTotalEspecie(){
         return totalDraconisCelestial;
     }
 
