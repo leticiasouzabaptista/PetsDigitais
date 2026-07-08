@@ -14,6 +14,8 @@ public abstract class Criatura {
     private int felicidade;
     private int saude;
     private TipoCriatura tipoCriatura;
+    private boolean ultimoFoiDescanso;
+    private boolean participouDesafio;
 
 
     public Criatura(String nome, TipoCriatura tipoCriatura) {
@@ -27,6 +29,8 @@ public abstract class Criatura {
         this.felicidade = 99;
         this.saude = 99;
         this.tipoCriatura = tipoCriatura;
+        this.ultimoFoiDescanso = false;
+        this.participouDesafio = false;
     }
     
     public abstract int getTotalEspecie();
@@ -111,18 +115,30 @@ public abstract class Criatura {
 
     public void setExperiencia(int modificador){
         this.experiencia += modificador;
+
+        if(this.experiencia >= 100){
+            this.nivel++;
+            this.experiencia -= this.experiencia - 99;
+        }     
+    }
+
+    private void evoluir(){
+        
     }
 
     public void setEnergia(int modificador){
         this.experiencia += modificador;
+        this.calculaSaude();
     }
 
     public void setSaciedade(int modificador){
         this.experiencia += modificador;
+        this.calculaSaude();
     }
 
     public void setFelicidade(int modificador){
         this.experiencia += modificador;
+        this.calculaSaude();
     }
 
     public void setSaude(int modificador){
@@ -130,38 +146,175 @@ public abstract class Criatura {
     }
 
     public void setExperienciaAtividade(int modificador){
-        this.experiencia += modificador - nivel/10;
+        this.experiencia += (modificador - nivel/10);
+
+        if(this.experiencia >= 100){
+            this.nivel++;
+            this.experiencia -= this.experiencia - 99;
+            this.participouDesafio = false;
+        }
     }
 
     public void setEnergiaAtividade(int modificador){
-        this.experiencia -= modificador + nivel/10;
+        this.energia -= (modificador + nivel/10);
+
+        this.calculaSaude();
+
+        if(this.experiencia == 0)
+            this.saude = 0;
     }
 
     public void setSaciedadeAtividade(int modificador){
-        this.experiencia -= modificador + nivel/10;
+        this.saciedade -= (modificador + nivel/10);
+
+        this.calculaSaude();
+
+        if(this.saciedade == 0)
+            this.saude = 0;
     }
 
     public void setFelicidadeAtividade(int modificador){
-        this.experiencia -= modificador + nivel/10;
+        this.felicidade -= (modificador + nivel/10);
+
+        this.calculaSaude();
+
+        if(this.felicidade == 0)
+            this.saude = 0;
+    }
+
+    public void setUltimoFoiDescanso(boolean acao){
+        this.ultimoFoiDescanso = acao;
+    }
+
+    public boolean getUltimoFoiDescanso(){
+        return ultimoFoiDescanso;
     }
 
     public abstract void atualizaTurno();
 
-    public abstract boolean treinar();
-    public abstract boolean explorar();
-    public abstract boolean brincar();
-    public abstract boolean podeComer(TipoAlimento tipo);
+    public abstract DadosTreino getDadosTreino();
+    public abstract DadosExplorar getDadosExplorar();
+    public abstract DadosBrincar getDadosBrincar();
+    public abstract DadosDesafio getDadosDesafio();
+    public abstract int recuperarEnergia();
+    //public abstract boolean podeComer(TipoAlimento tipo);
 
-   public void alimentar(TipoAlimento alimento){
+    public boolean verificaMorte(){
+        if(saude <= 0){
+            this.saude = 0;
+            return true;
+        }
+        return false;
+    }
+
+    public void alimentar(TipoAlimento alimento){
+        if(verificaMorte()){
+            System.out.println("A criatura está morta.");
+            return;
+        }
+            
         if(saude > 0 && saciedade < 90){
-            if(tipoCriatura.podeComer(alimento)){
-                
+            this.setSaciedadeAtividade(alimento.getModificadorSaciedade());
+        }
 
+        this.ultimoFoiDescanso = false;
+    }
+
+    public boolean descansar(){
+        if(verificaMorte()){
+            System.out.println("A criatura está morta.");
+            return false;
+        }
+
+        if(saude > 0 && energia < 90 ){
+            if(!ultimoFoiDescanso){
+                setEnergia(30);
+                System.out.println("Você está descansando!");
+                setUltimoFoiDescanso(true);
+                return true;
             }
         }
+        else
+            System.out.println("Você ainda não esta cansado para descansar..."); //tentar criar uma execao de erro e ver o que esta abixo do esperado e dar uma solução. lembrar de adicionar nas outras atividades.
+        return false;
+    }
+
+    public boolean treinar(){
+        if(verificaMorte()){
+            System.out.println("A criatura está morta.");
+            return false;
+        }
+
+        if(saude > 40 && energia >= 20 && saciedade >= 20){
+            setEnergiaAtividade(getDadosTreino().energia());
+            setSaciedadeAtividade(getDadosTreino().saciedade());
+            setExperienciaAtividade(getDadosTreino().experiencia());
+            System.out.println("Você está treinando!");
+            this.ultimoFoiDescanso = false;
+            return true;
+        }
+        else
+            System.out.println("Você não está disposto para treinar. Tente..."); //tentar criar uma execao de erro e ver o que esta abixo do esperado e dar uma solução. lembrar de adicionar nas outras atividades.
+        return false;
+    }
+
+    public boolean explorar(){
+        if(verificaMorte()){
+            System.out.println("A criatura está morta.");
+            return false;
+        }
+
+        if(saude > 20 && energia >= 15 && saciedade >= 15){
+
+            setEnergiaAtividade(getDadosTreino().energia());
+            setSaciedadeAtividade(getDadosTreino().saciedade());
+            setExperienciaAtividade(getDadosTreino().experiencia());
+            System.out.println("Você está explorando o reino!");
+            this.ultimoFoiDescanso = false;
+            return true;
+        }
+        else
+            System.out.println("Você não está disposto para explorar. Tente..."); //tentar criar uma execao de erro e ver o que esta abixo do esperado e dar uma solução. lembrar de adicionar nas outras atividades.
+        return false;
+    }
+
+    public boolean brincar(){
+        if(verificaMorte()){
+            System.out.println("A criatura está morta.");
+            return false;
+        }
+
+        if(saude > 20 && energia >= 50 && saciedade >= 50){
+            setEnergiaAtividade(getDadosBrincar().energia());
+            setSaciedadeAtividade(getDadosBrincar().saciedade());
+            setExperienciaAtividade(getDadosBrincar().felicidade());
+            System.out.println("Você está brincando!");
+            this.ultimoFoiDescanso = false;
+            return true;
+        }
+        else
+            System.out.println("Você não está disposto para brincar. Tente novamente..."); //tentar criar uma execao de erro e ver o que esta abixo do esperado e dar uma solução. lembrar de adicionar nas outras atividades.
+        return false;
+    }
+
+    public void desafio(){
+        if(this.saude > 40 && this.nivel >= 5 && this.energia >= 50 && this.saciedade >= 50){
+            if(this.nivel % 15 == 0){
+                if(!this.participouDesafio){
+                    System.out.println("\nVocê concluiu um desafio!");
+                    this.setExperiencia(getDadosDesafio().experiencia());
+                    this.setEnergia(getDadosDesafio().energia());
+                    this.setSaciedade(getDadosDesafio().saciedade());
+                    this.setFelicidade(getDadosDesafio().felicidade());
+                    this.participouDesafio = false;
+                }
+            }
+        }
+        
     }
 
 
+    
 
 
 
@@ -214,6 +367,10 @@ public abstract class Criatura {
 
 
 
+/* public abstract boolean treinar();
+    public abstract boolean explorar();
+    public abstract boolean brincar();
+ */
 
 
 

@@ -77,11 +77,36 @@ public class Fungari extends Criatura {
             System.out.println("Você não está disposto para brincar. Tente novamente..."); //tentar criar uma execao de erro e ver o que esta abixo do esperado e dar uma solução. lembrar de adicionar nas outras atividades.
         return false;
     }
-    
+
     @Override
+    public DadosTreino getDadosTreino(){
+        return new DadosTreino(20, 10, 10);
+    }
+
+    @Override
+    public DadosBrincar getDadosBrincar(){
+        return new DadosBrincar(15, 5, 5);
+    }
+
+    @Override
+    public DadosExplorar getDadosExplorar(){
+        return new DadosExplorar(10, 5, 5, 5);
+    }
+
+    @Override
+    public DadosDesafio getDadosDesafio(){
+        return new DadosDesafio(40, 15, 15, 5);
+    }
+
+    @Override
+    public int recuperarEnergia(){
+        return 20;
+    }
+    
+    /* @Override
     public boolean podeComer(TipoAlimento alimento) {
 
         return alimento == TipoAlimento.COGUMELOS || alimento == TipoAlimento.FRUTAS || alimento == TipoAlimento.BANQUETEREAL;
     }
-
+ */
 }

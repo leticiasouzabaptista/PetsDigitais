@@ -41,6 +41,45 @@ public class Aquari extends Criatura implements HE_aquatico {
     }
 
     @Override
+    public DadosTreino getDadosTreino(){
+        return new DadosTreino(25, 15, 10);
+    }
+
+    @Override
+    public DadosBrincar getDadosBrincar(){
+        return new DadosBrincar(20, 10, 5);
+    }
+
+    @Override
+    public DadosExplorar getDadosExplorar(){
+        return new DadosExplorar(15, 10, 10, 5);
+    }
+
+    @Override
+    public DadosDesafio getDadosDesafio(){
+        return new DadosDesafio(45, -20, 20, 10);
+    }
+
+    @Override
+    public int recuperarEnergia(){
+        return 25;
+    }
+
+    /* @Override
+    public boolean descansar(){
+        if(super.getSaude() > 0 && super.getEnergia() < 90 ){
+            if(!super.getUltimoFoiDescanso()){
+                super.setEnergia(30);
+                System.out.println("Você está descansando!");
+                super.setUltimoFoiDescanso(true);
+                return true;
+            }
+        }
+        else
+            System.out.println("Você ainda não esta cansado para descansar..."); //tentar criar uma execao de erro e ver o que esta abixo do esperado e dar uma solução. lembrar de adicionar nas outras atividades.
+        return false;
+
+        @Override
     public boolean treinar(){
         if(super.getSaude() > 40 && super.getEnergia() >= 20 && super.getSaciedade() >= 20){
             super.setEnergia(25);
@@ -88,10 +127,11 @@ public class Aquari extends Criatura implements HE_aquatico {
             System.out.println("Você não está disposto para brincar. Tente novamente..."); //tentar criar uma execao de erro e ver o que esta abixo do esperado e dar uma solução. lembrar de adicionar nas outras atividades.
         return false;
     }
+    } */
 
-    @Override
+    /* @Override
     public boolean podeComer(TipoAlimento alimento) {
 
         return alimento == TipoAlimento.NECTARLUMINOSO || alimento == TipoAlimento.CRISTAISENERGETICOS || alimento == TipoAlimento.BANQUETEREAL;
-    }
+    } */
 }

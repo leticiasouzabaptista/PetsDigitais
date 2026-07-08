@@ -89,9 +89,34 @@ public class Mecanis extends Criatura implements HE_mecanico {
     }
 
     @Override
+    public DadosTreino getDadosTreino(){
+        return new DadosTreino(40, 15, 20);
+    }
+
+    @Override
+    public DadosBrincar getDadosBrincar(){
+        return new DadosBrincar(10, 5, 10);
+    }
+
+    @Override
+    public DadosExplorar getDadosExplorar(){
+        return new DadosExplorar(25, 10, 15, 5);
+    }
+
+    @Override
+    public DadosDesafio getDadosDesafio(){
+        return new DadosDesafio(50, 20, 25, 10);
+    }
+
+    @Override
+    public int recuperarEnergia(){
+        return 15;
+    }
+
+    /* @Override
     public boolean podeComer(TipoAlimento alimento) {
 
         return alimento == TipoAlimento.COGUMELOS || alimento == TipoAlimento.CRISTAISENERGETICOS || alimento == TipoAlimento.BANQUETEREAL;
-    }
+    } */
 
 }

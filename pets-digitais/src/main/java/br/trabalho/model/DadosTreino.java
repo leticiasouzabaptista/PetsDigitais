@@ -1,6 +1,6 @@
 package br.trabalho.model;
 
 public record DadosTreino(
-        int saciedade, 
+        int experiencia, 
         int energia, 
-        int experiencia) {}
+        int saciedade) {}

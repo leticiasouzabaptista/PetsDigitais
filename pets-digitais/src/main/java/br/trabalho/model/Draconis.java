@@ -88,11 +88,36 @@ public class Draconis extends Criatura implements HE_voador {
             System.out.println("Você não está disposto para brincar. Tente novamente..."); //tentar criar uma execao de erro e ver o que esta abixo do esperado e dar uma solução. lembrar de adicionar nas outras atividades.
         return false;
     }
-    
+
     @Override
+    public DadosTreino getDadosTreino(){
+        return new DadosTreino(35, 25, 15);
+    }
+
+    @Override
+    public DadosBrincar getDadosBrincar(){
+        return new DadosBrincar(20, 10, 5);
+    }
+
+    @Override
+    public DadosExplorar getDadosExplorar(){
+        return new DadosExplorar(20, 15, 10, 5);
+    }
+
+    @Override
+    public DadosDesafio getDadosDesafio(){
+        return new DadosDesafio(60, 30, 20, 10);
+    }
+
+    @Override
+    public int recuperarEnergia(){
+        return 30;
+    }
+    
+    /* @Override
     public boolean podeComer(TipoAlimento alimento) {
 
         return alimento == TipoAlimento.CARNE || alimento == TipoAlimento.FRUTAS || alimento == TipoAlimento.BANQUETEREAL;
-    }
+    } */
 
 }

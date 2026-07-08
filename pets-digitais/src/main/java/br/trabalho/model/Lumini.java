@@ -90,9 +90,34 @@ public class Lumini extends Criatura implements HE_luminescente {
     }
 
     @Override
+    public DadosTreino getDadosTreino(){
+        return new DadosTreino(25, 20, 10);
+    }
+
+    @Override
+    public DadosBrincar getDadosBrincar(){
+        return new DadosBrincar(35, 5, 5);
+    }
+
+    @Override
+    public DadosExplorar getDadosExplorar(){
+        return new DadosExplorar(15, 20, 5, 10);
+    }
+
+    @Override
+    public DadosDesafio getDadosDesafio(){
+        return new DadosDesafio(45, 35, 15, 15);
+    }
+
+    @Override
+    public int recuperarEnergia(){
+        return 40;
+    }
+
+    /* @Override
     public boolean podeComer(TipoAlimento alimento) {
 
         return alimento == TipoAlimento.FOTONS || alimento == TipoAlimento.NECTARLUMINOSO || alimento == TipoAlimento.BANQUETEREAL;
     }
-
+ */
 }
