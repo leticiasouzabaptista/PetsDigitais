@@ -41,6 +41,11 @@ public class Aquari extends Criatura implements HE_aquatico {
     }
 
     @Override
+    public void usarHabilidadeEspecial(){
+        this.mergulhar();
+    }
+
+    @Override
     public DadosTreino getDadosTreino(){
         return new DadosTreino(25, 15, 10);
     }

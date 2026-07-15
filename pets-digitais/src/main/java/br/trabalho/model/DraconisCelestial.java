@@ -1,5 +1,7 @@
 package br.trabalho.model;
 
+import br.trabalho.util.Leituras;
+
 public class DraconisCelestial extends Criatura implements HE_voador, HE_autodidata {
 
     private static int totalDraconisCelestial = 0;
@@ -51,53 +53,22 @@ public class DraconisCelestial extends Criatura implements HE_voador, HE_autodid
     }
 
     @Override
-    public boolean treinar(){
-        if(super.getSaude() > 40 && super.getEnergia() >= 20 && super.getSaciedade() >= 20){
-            super.setEnergia(25);
-            super.setSaciedade(15);
-            super.setExperiencia(10);
+    public void usarHabilidadeEspecial(){
+        System.out.println("\n1. Realizar Voo\n2. Estudar");
+        int opcao = Leituras.leInt();
 
-            System.out.println("Você está treinando!");
-
-            return true;
+        //ve onde esse switch vai ficar mesmo e colocar opcao -1 e dentro de um while
+        switch (opcao) {
+            case 1:
+                this.realizarVoo();
+                break;
+            case 2:
+                this.estudar();
+                break;
+        
+            default:
+                System.out.println("Opcao inválida, tente novamente:");
         }
-        else
-            System.out.println("Você não está disposto para treinar. Tente..."); //tentar criar uma execao de erro e ver o que esta abixo do esperado e dar uma solução. lembrar de adicionar nas outras atividades.
-        return false;
-    }
-
-    @Override
-    public boolean explorar(){
-        if(super.getSaude() > 20 && super.getEnergia() >= 15 && super.getSaciedade() >= 15){
-            super.setEnergia(10);
-            super.setSaciedade(10);
-            super.setExperiencia(15);
-            super.setFelicidade(5);
-
-            System.out.println("Você está explorando o reino!");
-
-            return true;
-        }
-        else
-            System.out.println("Você não está disposto para explorar. Tente..."); //tentar criar uma execao de erro e ver o que esta abixo do esperado e dar uma solução. lembrar de adicionar nas outras atividades.
-
-        return false;
-    }
-
-    @Override
-    public boolean brincar(){
-        if(super.getSaude() > 20 && super.getEnergia() >= 50 && super.getSaciedade() >= 50){
-            super.setFelicidade(20);
-            super.setSaciedade(5);
-            super.setEnergia(10);
-
-            System.out.println("Você está brincando!");
-
-            return true;
-        }
-        else
-            System.out.println("Você não está disposto para brincar. Tente novamente..."); //tentar criar uma execao de erro e ver o que esta abixo do esperado e dar uma solução. lembrar de adicionar nas outras atividades.
-        return false;
     }
 
     @Override

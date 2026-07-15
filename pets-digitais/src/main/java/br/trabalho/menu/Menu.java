@@ -6,19 +6,24 @@ import br.trabalho.service.CriaturaService;
 import br.trabalho.util.Leituras;
 import br.trabalho.repository.*;
 import br.trabalho.model.Criatura;
+import br.trabalho.model.Estoque;
 import br.trabalho.model.TipoAlimento;
 
 public class Menu {
 
-    private CriaturaService criaturaService;
     private CriaturaRepository repository;
+    private Estoque estoque;
+    private CriaturaService criaturaService;
     private int opcao;
 
-    public Menu(){
-        criaturaService = new CriaturaService();
+    public Menu() {
+
         repository = new CriaturaRepository();
+        estoque = new Estoque();
+        criaturaService = new CriaturaService(repository, estoque);
 
     }
+
 
     public Criatura identificaCriatura(){
         System.out.print("Nome do Pet: ");
@@ -67,7 +72,7 @@ public class Menu {
                     criaturaService.criaCriatura();
                     break;
                 case 3:
-                    criaturaService.criaturasCadastradas();
+                    criaturaService.exportarCriaturas();
                     break;
                 case 4:
                     criaturaService.criaturasCadastradas();
@@ -111,13 +116,13 @@ public class Menu {
                     criaturaService.brincar(this.identificaCriatura());
                     break;
                 case 3:
-                    criaturaService.brincar(this.identificaCriatura());
+                    criaturaService.dormir(this.identificaCriatura());
                     break;
                 case 4:
-                    criaturaService.brincar(this.identificaCriatura());
+                    criaturaService.treinar(this.identificaCriatura());
                     break;
                 case 5:
-                    criaturaService.brincar(this.identificaCriatura());
+                    criaturaService.desafio(this.identificaCriatura());
                     break;
                 case 6:
                     criaturaService.brincar(this.identificaCriatura());

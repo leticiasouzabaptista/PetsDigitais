@@ -1,7 +1,9 @@
 package br.trabalho.service;
 
+import java.io.IOException;
 import java.util.Scanner;
-
+import br.trabalho.Exceptions.CriaturaMortaException;
+import br.trabalho.Exceptions.CriaturaNaoEncontradaException;
 import br.trabalho.model.Aquari;
 import br.trabalho.model.Criatura;
 import br.trabalho.model.Draconis;
@@ -19,9 +21,9 @@ public class CriaturaService {
     private CriaturaRepository repository;
     private Estoque estoque;
 
-    public CriaturaService(){
-        repository = new CriaturaRepository();
-        estoque = new Estoque();
+    public CriaturaService(CriaturaRepository repository, Estoque estoque){
+        this.repository = repository;
+        this.estoque = estoque;
     }
 
     public void criaCriatura(){
@@ -98,7 +100,7 @@ public class CriaturaService {
     public void criaturasCadastradas(){
 
         if(repository.getCriaturas().isEmpty())
-            System.out.println("O reino esá sem Pets");//melhorar essa frase
+            System.out.println("O reino está sem Pets");//melhorar essa frase
         else{
             for(Criatura criatura: repository.getCriaturas()){
             System.out.println("------------------------");
@@ -113,72 +115,107 @@ public class CriaturaService {
     }
 
     public void exibeInformacoes(Criatura criatura){
-        if(repository.criaturaExiste(criatura))
-            criatura.exibeInformacoes();
-        else
-            System.out.println("Criatura não encontrada no reino.");
+        repository.verificaCriaturaExiste(criatura);
+        criatura.exibeInformacoes();
     }
 
     public void exibeSatus(Criatura criatura){
-        if(repository.criaturaExiste(criatura))
-            criatura.exibeEstadoAtual();
-        else
-            System.out.println("Criatura não encontrada no reino.");
+
+        repository.verificaCriaturaExiste(criatura);
+        criatura.exibeEstadoAtual();
     }
 
     public void brincar(Criatura criatura){
-        if(repository.criaturaExiste(criatura)){
-            if(!criatura.brincar())
-                System.out.print("A criatura não está disposta pra brincar.");
-        }
+
+        repository.verificaCriaturaExiste(criatura);
+
+        repository.verificaCriaturaMorta(criatura);
+        
+        if(!criatura.brincar())
+            System.out.print("A criatura não está disposta pra brincar.");
         else
-            System.out.println("Criatura não encontrada no reino.");
+            System.out.println("Você não está disposto para brincar. Tente novamente...");
     }
 
     public void treinar(Criatura criatura){
-        if(repository.criaturaExiste(criatura)){
-            if(!criatura.treinar())
-                System.out.print("A criatura não está disposta pra treinar.");
-        }
+        repository.verificaCriaturaExiste(criatura);
+
+        repository.verificaCriaturaMorta(criatura);
+
+        if(!criatura.treinar())
+            System.out.print("A criatura não está disposta pra treinar.");
         else
-            System.out.println("Criatura não encontrada no reino.");
+            System.out.println("Você não está disposto para treinar. Tente...");
     }
 
     public void explorar(Criatura criatura){
-        if(repository.criaturaExiste(criatura)){
-            if(!criatura.explorar())
+
+        repository.verificaCriaturaExiste(criatura);
+
+        repository.verificaCriaturaMorta(criatura);
+       
+        if(!criatura.explorar())
                 System.out.print("A criatura não está disposta pra explorar.");
-        }
         else
-            System.out.println("Criatura não encontrada no reino.");
+            System.out.println("Você não está disposto para explorar. Tente...");
     }
 
     public void alimentar(Criatura criatura, TipoAlimento alimento){
-        if(repository.criaturaExiste(criatura)){
-            if(criatura.getTipoCriatura().podeComer(alimento)){
-                if(estoque.existeNoEstoque(alimento)){
-                    criatura.alimentar(alimento);
-                    estoque.reabastece();
-                }
-                else
-                    System.out.println("Alimento não esta no estoque.");
+        
+        repository.verificaCriaturaExiste(criatura);
+
+        repository.verificaCriaturaMorta(criatura);
+
+        if(criatura.getTipoCriatura().podeComer(alimento)){
+            if(estoque.existeNoEstoque(alimento)){
+                criatura.alimentar(alimento);
+                estoque.reabastece();
             }
             else
-                System.out.println("\nCriatura não pode comer este alimento.");
+                System.out.println("Alimento não esta no estoque.");
         }
         else
-            System.out.println("Criatura não encontrada no reino.");    
+            System.out.println("\nCriatura não pode comer este alimento."); 
     }
 
     public void dormir(Criatura criatura){
-        repository.getCriatura(criatura.getNome()).brincar();
+
+        repository.verificaCriaturaExiste(criatura);
+
+        repository.verificaCriaturaMorta(criatura);
+
+        if(!criatura.descansar())
+            System.out.print("A criatura não está disposta pra treinar.");
+        else
+            System.out.println("Você ainda não esta cansado para descansar...");
     }
 
     public void desafio(Criatura criatura){
-        repository.getCriatura(criatura.getNome()).brincar();
+
+        repository.verificaCriaturaExiste(criatura);
+
+        repository.verificaCriaturaMorta(criatura);
+
+        if(!criatura.desafio())
+            System.out.print("A criatura não está apta para realizar o desafio.");
     }
 
     public void habilidadeEspecial(Criatura criatura){
-        repository.getCriatura(criatura.getNome()).brincar();
+
+        repository.verificaCriaturaExiste(criatura);
+
+        repository.verificaCriaturaMorta(criatura);
+
+        criatura.usarHabilidadeEspecial();
+    }
+
+    public void exportarCriaturas(){
+        try{
+            repository.exportarCriaturas();
+            System.out.println("\nExportação realizada com sucesso!");
+        }
+        catch(IOException e){
+            System.out.println("\nErro ao exportar criaturas: " + e.getMessage());
+        }
     }
 }
