@@ -6,4 +6,8 @@ public class CriaturaNaoEncontradaException extends RuntimeException {
         super("Criatura não encontrada no reino.");
     }
 
+    public CriaturaNaoEncontradaException(String mensagem) {
+        super(mensagem);
+    }
+
 }

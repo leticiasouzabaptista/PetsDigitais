@@ -1,39 +1,34 @@
 package br.trabalho.service;
 
 import java.io.IOException;
-import java.util.Scanner;
-import br.trabalho.Exceptions.CriaturaMortaException;
-import br.trabalho.Exceptions.CriaturaNaoEncontradaException;
 import br.trabalho.model.Aquari;
 import br.trabalho.model.Criatura;
 import br.trabalho.model.Draconis;
 import br.trabalho.model.DraconisCelestial;
-import br.trabalho.model.Estoque;
 import br.trabalho.model.Fungari;
 import br.trabalho.model.Lumini;
 import br.trabalho.model.Mecanis;
+import br.trabalho.model.Mundo;
 import br.trabalho.model.TipoAlimento;
+import br.trabalho.util.Formatacao;
 import br.trabalho.util.Leituras;
-import br.trabalho.repository.CriaturaRepository;
 
 public class CriaturaService {
 
-    private CriaturaRepository repository;
-    private Estoque estoque;
+    private Mundo mundo;
 
-    public CriaturaService(CriaturaRepository repository, Estoque estoque){
-        this.repository = repository;
-        this.estoque = estoque;
-    }
-
+    public CriaturaService(Mundo mundo){
+        this.mundo = mundo;
+    }  
+        
     public void criaCriatura(){
 
         System.out.print("\nNome: ");
         String nome = Leituras.leFrase();
 
-        System.out.print("╔════════════════════════╗\n");
-        System.out.print("║   Escolha uma Espécie  ║\n");
-        System.out.print("╚════════════════════════╝");
+        System.out.println("╔══════════════════════════════╗");
+        Formatacao.imprimirCentralizado("Escolha uma Espécie");
+        System.out.println("╚══════════════════════════════╝");
 
         System.out.print("\n1. Draconis\nCriaturas descendentes dos antigos dragões. Possuem grande vitalidade e aprendem habilidades mais rapidamente que as demais espécies.\n");
         System.out.print("\n2. Lumini\nCriaturas formadas por energia luminosa. Recuperam a felicidade rapidamente, porém se cansam com maior facilidade.\n");
@@ -49,46 +44,47 @@ public class CriaturaService {
 
             switch (opcao) {
             case 1:{
-                repository.salvaCriatura(new Draconis(nome));
+                Criatura criatura = new Draconis(nome);
+                mundo.getCriaturaRepository().salvaCriatura(criatura);
                 System.out.println("\nCriatura criada com sucesso!");
-                repository.getCriatura(nome).exibeInformacoes();
+                mundo.getCriaturaRepository().getCriatura(criatura.getNomeUnico()).exibeInformacoes();
                 opcaoValida = true;
                 break;
                 }
             case 2:{
-                repository.salvaCriatura(new Lumini(nome));
+                Criatura criatura = new Lumini(nome);
+                mundo.getCriaturaRepository().salvaCriatura(criatura);
                 System.out.println("\nCriatura criada com sucesso!");
-                repository.getCriatura(nome).exibeInformacoes();
+                mundo.getCriaturaRepository().getCriatura(criatura.getNomeUnico()).exibeInformacoes();
                 opcaoValida = true;
-                break;
                 }
             case 3:{
-                repository.salvaCriatura(new Fungari(nome));
+                Criatura criatura = new Fungari(nome);
+                mundo.getCriaturaRepository().salvaCriatura(criatura);
                 System.out.println("\nCriatura criada com sucesso!");
-                repository.getCriatura(nome).exibeInformacoes();
+                mundo.getCriaturaRepository().getCriatura(criatura.getNomeUnico()).exibeInformacoes();
                 opcaoValida = true;
-                break;
                 }
             case 4:{
-                repository.salvaCriatura(new Aquari(nome));
+                Criatura criatura = new Aquari(nome);
+                mundo.getCriaturaRepository().salvaCriatura(criatura);
                 System.out.println("\nCriatura criada com sucesso!");
-                repository.getCriatura(nome).exibeInformacoes();
+                mundo.getCriaturaRepository().getCriatura(criatura.getNomeUnico()).exibeInformacoes();
                 opcaoValida = true;
-                break;
                 }
             case 5:{
-                repository.salvaCriatura(new Mecanis(nome));
+                Criatura criatura = new Mecanis(nome);
+                mundo.getCriaturaRepository().salvaCriatura(criatura);
                 System.out.println("\nCriatura criada com sucesso!");
-                repository.getCriatura(nome).exibeInformacoes();
+                mundo.getCriaturaRepository().getCriatura(criatura.getNomeUnico()).exibeInformacoes();
                 opcaoValida = true;
-                break;
                 }
             case 6:{
-                repository.salvaCriatura(new DraconisCelestial(nome));
+                Criatura criatura = new DraconisCelestial(nome);
+                mundo.getCriaturaRepository().salvaCriatura(criatura);
                 System.out.println("\nCriatura criada com sucesso!");
-                repository.getCriatura(nome).exibeInformacoes();
+                mundo.getCriaturaRepository().getCriatura(criatura.getNomeUnico()).exibeInformacoes();
                 opcaoValida = true;
-                break;
                 }
             default:{
                 System.out.println("Opção não válida.\nTente novamente.");
@@ -99,10 +95,10 @@ public class CriaturaService {
 
     public void criaturasCadastradas(){
 
-        if(repository.getCriaturas().isEmpty())
+        if(mundo.getCriaturaRepository().getCriaturas().isEmpty())
             System.out.println("O reino está sem Pets");//melhorar essa frase
         else{
-            for(Criatura criatura: repository.getCriaturas()){
+            for(Criatura criatura: mundo.getCriaturaRepository().getCriaturas().values()){
             System.out.println("------------------------");
             System.out.println(criatura);
             System.out.println("------------------------");
@@ -111,65 +107,68 @@ public class CriaturaService {
     }
 
     public void removeCriatura(Criatura criatura){
-        repository.removeCriatura(criatura);
+        mundo.getCriaturaRepository().removeCriatura(criatura);
     }
 
     public void exibeInformacoes(Criatura criatura){
-        repository.verificaCriaturaExiste(criatura);
+        mundo.getCriaturaRepository().verificaCriaturaExiste(criatura);
         criatura.exibeInformacoes();
     }
 
     public void exibeSatus(Criatura criatura){
 
-        repository.verificaCriaturaExiste(criatura);
+        mundo.getCriaturaRepository().verificaCriaturaExiste(criatura);
         criatura.exibeEstadoAtual();
     }
 
     public void brincar(Criatura criatura){
 
-        repository.verificaCriaturaExiste(criatura);
-
-        repository.verificaCriaturaMorta(criatura);
+        mundo.getCriaturaRepository().verificaCriaturaExiste(criatura);
+        mundo.getCriaturaRepository().verificaCriaturaMorta(criatura);
         
-        if(!criatura.brincar())
-            System.out.print("A criatura não está disposta pra brincar.");
+        if(criatura.getSaude() > 20 && criatura.getEnergia() >= 50 && criatura.getSaciedade() >= 50){
+            criatura.brincar();
+            mundo.avancaTempo();
+        }
         else
             System.out.println("Você não está disposto para brincar. Tente novamente...");
     }
 
     public void treinar(Criatura criatura){
-        repository.verificaCriaturaExiste(criatura);
 
-        repository.verificaCriaturaMorta(criatura);
+        mundo.getCriaturaRepository().verificaCriaturaExiste(criatura);
+        mundo.getCriaturaRepository().verificaCriaturaMorta(criatura);
 
-        if(!criatura.treinar())
-            System.out.print("A criatura não está disposta pra treinar.");
+        if(criatura.getSaude() > 40 && criatura.getEnergia() >= 20 && criatura.getSaciedade() >= 20){
+            criatura.treinar();
+            mundo.avancaTempo();
+        }
         else
             System.out.println("Você não está disposto para treinar. Tente...");
     }
 
     public void explorar(Criatura criatura){
 
-        repository.verificaCriaturaExiste(criatura);
-
-        repository.verificaCriaturaMorta(criatura);
+        mundo.getCriaturaRepository().verificaCriaturaExiste(criatura);
+        mundo.getCriaturaRepository().verificaCriaturaMorta(criatura);
        
-        if(!criatura.explorar())
-                System.out.print("A criatura não está disposta pra explorar.");
+        if(criatura.getSaciedade() > 20 && criatura.getEnergia() >= 15 && criatura.getSaciedade() >= 15){
+            criatura.explorar();
+            mundo.avancaTempo();
+        }
         else
             System.out.println("Você não está disposto para explorar. Tente...");
     }
 
     public void alimentar(Criatura criatura, TipoAlimento alimento){
         
-        repository.verificaCriaturaExiste(criatura);
-
-        repository.verificaCriaturaMorta(criatura);
+        mundo.getCriaturaRepository().verificaCriaturaExiste(criatura);
+        mundo.getCriaturaRepository().verificaCriaturaMorta(criatura);
 
         if(criatura.getTipoCriatura().podeComer(alimento)){
-            if(estoque.existeNoEstoque(alimento)){
+            if(mundo.getEstoque().existeNoEstoque(alimento)){
                 criatura.alimentar(alimento);
-                estoque.reabastece();
+                mundo.getEstoque().reabastece();
             }
             else
                 System.out.println("Alimento não esta no estoque.");
@@ -180,42 +179,60 @@ public class CriaturaService {
 
     public void dormir(Criatura criatura){
 
-        repository.verificaCriaturaExiste(criatura);
+        mundo.getCriaturaRepository().verificaCriaturaExiste(criatura);
+        mundo.getCriaturaRepository().verificaCriaturaMorta(criatura);
 
-        repository.verificaCriaturaMorta(criatura);
-
-        if(!criatura.descansar())
-            System.out.print("A criatura não está disposta pra treinar.");
+        if(criatura.getSaude() > 0 && criatura.getEnergia() < 90 ){
+            criatura.descansar();
+            mundo.avancaTempo();
+        }
         else
             System.out.println("Você ainda não esta cansado para descansar...");
     }
 
     public void desafio(Criatura criatura){
 
-        repository.verificaCriaturaExiste(criatura);
+        mundo.getCriaturaRepository().verificaCriaturaExiste(criatura);
+        mundo.getCriaturaRepository().verificaCriaturaMorta(criatura);
 
-        repository.verificaCriaturaMorta(criatura);
-
-        if(!criatura.desafio())
-            System.out.print("A criatura não está apta para realizar o desafio.");
+        if(criatura.getSaude() > 40 && criatura.getNivel() >= 5 && criatura.getEnergia() >= 50 && criatura.getSaciedade() >= 50){
+            if(criatura.getNivel() % 15 == 0){
+                if(!criatura.participouDesafio()){
+                    criatura.desafio();
+                    System.out.println("\nVocê concluiu um desafio!");
+                }
+            }
+            else
+                System.out.print("A criatura não está apta para realizar o desafio.");
+        }
+        else
+            System.out.print("A criatura não está disposta para realizar o desafio.");
     }
 
     public void habilidadeEspecial(Criatura criatura){
 
-        repository.verificaCriaturaExiste(criatura);
-
-        repository.verificaCriaturaMorta(criatura);
-
+        mundo.getCriaturaRepository().verificaCriaturaExiste(criatura);
+        mundo.getCriaturaRepository().verificaCriaturaMorta(criatura);
         criatura.usarHabilidadeEspecial();
     }
 
     public void exportarCriaturas(){
         try{
-            repository.exportarCriaturas();
+            mundo.getCriaturaRepository().exportarCriaturas();
             System.out.println("\nExportação realizada com sucesso!");
         }
         catch(IOException e){
             System.out.println("\nErro ao exportar criaturas: " + e.getMessage());
+        }
+    }
+
+    public void importarCriaturas(){
+        try{
+            mundo.getCriaturaRepository().importarCriaturas();
+            System.out.println("\nImportação realizada com sucesso!");
+        }
+        catch(IOException e){
+            System.out.println("\nErro ao importar criaturas: " + e.getMessage());
         }
     }
 }

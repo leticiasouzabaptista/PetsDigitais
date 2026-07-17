@@ -1,7 +1,27 @@
 package br.trabalho.model;
 
-import br.trabalho.Enum.*;
+import com.fasterxml.jackson.annotation.JsonTypeInfo;
+import java.util.HashSet;
+import java.util.Random;
+import java.util.Set;
+import com.fasterxml.jackson.annotation.JsonIgnore;
+import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
+import com.fasterxml.jackson.annotation.JsonSubTypes;
 import br.trabalho.util.Formatacao;
+
+@JsonTypeInfo(
+        use = JsonTypeInfo.Id.NAME,
+        include = JsonTypeInfo.As.PROPERTY,
+        property = "especie",
+        visible = true) 
+@JsonSubTypes({
+        @JsonSubTypes.Type(value = Aquari.class, name = "Aquari"),
+        @JsonSubTypes.Type(value = Draconis.class, name = "Draconis"),
+        @JsonSubTypes.Type(value = Fungari.class, name = "Fungari"),
+        @JsonSubTypes.Type(value = DraconisCelestial.class, name = "DraconisCelestial"),
+        @JsonSubTypes.Type(value = Lumini.class, name = "Lumini"),
+        @JsonSubTypes.Type(value = Mecanis.class, name = "Mecanis")})
+@JsonIgnoreProperties(ignoreUnknown = true)
 
 public abstract class Criatura {
 
@@ -13,22 +33,27 @@ public abstract class Criatura {
     private int saciedade;
     private int felicidade;
     private int saude;
-    private TipoCriatura tipoCriatura;
+    private TipoCriatura especie;
+
+    @JsonIgnore
     private boolean ultimoFoiDescanso;
+    @JsonIgnore
     private boolean participouDesafio;
+    @JsonIgnore
+    private String nomeUnico = null;
 
-
-    public abstract int getTotalEspecie();
-    public abstract void atualizaTurno();
-    public abstract DadosTreino getDadosTreino();
-    public abstract DadosExplorar getDadosExplorar();
-    public abstract DadosBrincar getDadosBrincar();
-    public abstract DadosDesafio getDadosDesafio();
+    public abstract void aplicaDesgasteNatural();
     public abstract int recuperarEnergia();
+    public abstract void brincar();
+    public abstract void treinar();
+    public abstract void explorar();
+    public abstract void descansar();
+    public abstract void desafio();
+    protected abstract void evoluir();
     public abstract void usarHabilidadeEspecial();
-    //public abstract boolean podeComer(TipoAlimento tipo);
+    public Criatura(){}
 
-    public Criatura(String nome, TipoCriatura tipoCriatura) {
+    public Criatura(String nome, TipoCriatura especie) {
 
         this.nome = nome;
         this.idade = 0;
@@ -38,39 +63,60 @@ public abstract class Criatura {
         this.saciedade = 99;
         this.felicidade = 99;
         this.saude = 99;
-        this.tipoCriatura = tipoCriatura;
+        this.especie = especie;
         this.ultimoFoiDescanso = false;
         this.participouDesafio = false;
+        this.nomeUnico = this.gerarNomeUnico();
     }
 
-    @Override
-    public String toString(){
-        return "Nome: " + nome + "\nIdade: " + idade + "\nNivel: " + nivel;
+    public String gerarNomeUnico(){
+
+        Random random = new Random();
+        Set<String> nomesGerados = new HashSet<>();
+        String nomeUnico;
+
+        do {
+            nomeUnico = this.nome + (1000 + random.nextInt(9000));
+        } while (nomesGerados.contains(nomeUnico));
+
+        nomesGerados.add(nomeUnico);
+        return nomeUnico;
+    }
+
+    public void setNomeUnico(String nomeUnico){
+        this.nomeUnico = nomeUnico;
     }
 
     public void exibeInformacoes() {
 
-        System.out.println("╔══════════════════════════════╗");
-        Formatacao.imprimirCentralizado(nome, 31);
-        System.out.println("╠══════════════════════════════╣");
-        System.out.printf("║ Idade: %-21d ║%n", idade);
-        System.out.printf("║ Nível: %-21d ║%n", nivel);
-        System.out.printf("║ Experiência: %-15d ║%n", experiencia);
-        System.out.printf("║ Saciedade: %-17d ║%n", saciedade);
-        System.out.printf("║ Felicidade: %-16d ║%n", felicidade);
-        System.out.printf("║ Saúde: %-21d ║%n", saude);
-        System.out.println("╚══════════════════════════════╝");
-
+        System.out.println("╔═══════════════════════════════════╗");
+        Formatacao.imprimirCentralizado(nome);
+        System.out.println("╠═══════════════════════════════════╣");
+        Formatacao.imprimirLinha("Nome Único", nomeUnico);
+        Formatacao.imprimirLinha("Idade", idade);
+        Formatacao.imprimirLinha("Nível", nivel);
+        Formatacao.imprimirLinha("Experiência", experiencia);
+        Formatacao.imprimirLinha("Saciedade", saciedade);
+        Formatacao.imprimirLinha("Felicidade", felicidade);
+        Formatacao.imprimirLinha("Saúde", saude);
+        System.out.println("╚═══════════════════════════════════╝");
     }
 
     public void exibeEstadoAtual() {
 
-        System.out.println("Saúde: " + Saude.estadoSaude(saude));
-        System.out.println("Saciedade: " + Saciedade.estadoSaciedade(saciedade));
-        System.out.println("Felicidade: " + Felicidade.estadoFelicidade(felicidade));
-        System.out.println("Energia: " + Energia.estadoEnergia(energia));
-
-        // usar aquelas barrinhas aqui.
+        System.out.println("╔═══════════════════════════════════╗");
+        Formatacao.imprimirCentralizado(nome);
+        System.out.println("╠═══════════════════════════════════╣");
+        Formatacao.imprimirLinha("Nome Único", nomeUnico);
+        Formatacao.imprimirLinhaVazia();
+        Formatacao.imprimirLinha("Saúde", Formatacao.barra(saude), Saude.estadoSaude(saude).toString());
+        Formatacao.imprimirLinhaVazia();
+        Formatacao.imprimirLinha("Felicidade", Formatacao.barra(felicidade), Felicidade.estadoFelicidade(felicidade).toString());
+        Formatacao.imprimirLinhaVazia();
+        Formatacao.imprimirLinha("Saciedade", Formatacao.barra(saciedade), Saciedade.estadoSaciedade(saciedade).toString());
+        Formatacao.imprimirLinhaVazia();
+        Formatacao.imprimirLinha("Energia", Formatacao.barra(energia), Energia.estadoEnergia(energia).toString());
+        System.out.println("╚═══════════════════════════════════╝");
     }
 
     public void calculaSaude(){
@@ -79,6 +125,10 @@ public abstract class Criatura {
 
     public String getNome(){
         return nome;
+    }
+
+    public String getNomeUnico(){
+        return nomeUnico;
     }
 
     public int getIdade(){
@@ -110,15 +160,42 @@ public abstract class Criatura {
     }
 
     public TipoCriatura getTipoCriatura(){
-        return tipoCriatura;
+        return especie;
     }
 
-    private void evoluir(){
-
-        
+    public void setNome(String nome){
+        this.nome = nome;
     }
 
-    public void setExperiencia(int modificador){
+    public void setIdade(int idade){
+        this.idade = idade;
+    }
+
+    public void setNivel(int nivel){
+        this.nivel = nivel;
+    }
+
+    public void setExperiencia(int experiencia){
+        this.experiencia = experiencia;
+    }
+
+    public void setEnergia(int energia){
+        this.energia = energia;
+    }
+
+    public void setSaciedade(int saciedade){
+        this.saciedade = saciedade;
+    }
+
+    public void setFelicidade(int felicidade){
+        this.felicidade = felicidade;
+    }
+
+    public void setSaude(int saude){
+        this.saude = saude;
+    }
+
+    public void setExperienciaSoma(int modificador){
         this.experiencia += modificador;
 
         if(this.experiencia >= 100){
@@ -129,23 +206,31 @@ public abstract class Criatura {
         }     
     }
 
-    public void setEnergia(int modificador){
-        this.experiencia += modificador;
+    public void setEnergiaSoma(int modificador){
+        this.energia += modificador;
         this.calculaSaude();
     }
 
-    public void setSaciedade(int modificador){
-        this.experiencia += modificador;
+    public void setSaciedadeSoma(int modificador){
+        this.saciedade += modificador;
         this.calculaSaude();
     }
 
-    public void setFelicidade(int modificador){
-        this.experiencia += modificador;
+    public void setFelicidadeSoma(int modificador){
+        this.felicidade += modificador;
         this.calculaSaude();
     }
 
-    public void setSaude(int modificador){
+    public void setSaudeSoma(int modificador){
         this.saude += modificador;
+    }
+
+    public boolean participouDesafio(){
+        return participouDesafio;
+    }
+
+    public void setParticipouDesafio(boolean acao){
+        this.participouDesafio = acao;
     }
 
     public void setExperienciaAtividade(int modificador){
@@ -208,197 +293,4 @@ public abstract class Criatura {
         }
         this.ultimoFoiDescanso = false;
     }
-
-    public boolean descansar(){
-
-        if(saude > 0 && energia < 90 ){
-            if(!ultimoFoiDescanso){
-                setEnergia(30);
-                System.out.println("Você está descansando!");
-                setUltimoFoiDescanso(true);
-                return true;
-            }
-        }
-        return false;
-    }
-
-    public boolean treinar(){
-
-        if(saude > 40 && energia >= 20 && saciedade >= 20){
-            setEnergiaAtividade(getDadosTreino().energia());
-            setSaciedadeAtividade(getDadosTreino().saciedade());
-            setExperienciaAtividade(getDadosTreino().experiencia());
-            System.out.println("Você está treinando!");
-            this.ultimoFoiDescanso = false;
-            return true;
-        }
-       
-        return false;
-    }
-
-    public boolean explorar(){
-
-        if(saude > 20 && energia >= 15 && saciedade >= 15){
-
-            setEnergiaAtividade(getDadosTreino().energia());
-            setSaciedadeAtividade(getDadosTreino().saciedade());
-            setExperienciaAtividade(getDadosTreino().experiencia());
-            System.out.println("Você está explorando o reino!");
-            this.ultimoFoiDescanso = false;
-            return true;
-        }
-        return false;
-    }
-
-    public boolean brincar(){
-        
-        if(saude > 20 && energia >= 50 && saciedade >= 50){
-            setEnergiaAtividade(getDadosBrincar().energia());
-            setSaciedadeAtividade(getDadosBrincar().saciedade());
-            setExperienciaAtividade(getDadosBrincar().felicidade());
-            System.out.println("Você está brincando!");
-            this.ultimoFoiDescanso = false;
-            return true;
-        }
-        return false;
-    }
-
-    public boolean desafio(){
-        if(this.saude > 40 && this.nivel >= 5 && this.energia >= 50 && this.saciedade >= 50){
-            if(this.nivel % 15 == 0){
-                if(!this.participouDesafio){
-                    System.out.println("\nVocê concluiu um desafio!");
-                    this.setExperiencia(getDadosDesafio().experiencia());
-                    this.setEnergia(getDadosDesafio().energia());
-                    this.setSaciedade(getDadosDesafio().saciedade());
-                    this.setFelicidade(getDadosDesafio().felicidade());
-                    this.participouDesafio = true;
-                    return true;
-                }
-            }
-        }
-        return false; 
-    }
-
-
-    
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-/* public abstract boolean treinar();
-    public abstract boolean explorar();
-    public abstract boolean brincar();
- */
-
-
-
-
-
-    
-    /* public abstract DadosTreino getDadosTreino();
-    public abstract DadosExplorar getDadosExplorar();
-    public abstract DadosBrincar getDadosBrincar();
-    public abstract boolean podeComer(TipoAlimento tipo);
-    //public abstract int dadosDescansar();
-    //public abstract int dadosDesafios();
-    //public abstract int dadosEvoluir();
-
-    public void treinar(){
-        if(saude > 40 && energia >= 20 && saciedade >= 20){
-            setEnergia(getDadosTreino().energia());
-            setSaciedade(getDadosTreino().saciedade());
-            setExperiencia(getDadosTreino().experiencia());
-        }
-        else
-            System.out.println("Você não está disposto para brincar. Tente..."); //tentar criar uma execao de erro e ver o que esta abixo do esperado e dar uma solução. lembrar de adicionar nas outras atividades.
-    }
-
-    public void explorar(){
-        if(saude > 20 && energia >= 15 && saciedade >= 15){
-            setEnergia(getDadosTreino().energia());
-            setSaciedade(getDadosTreino().saciedade());
-            setExperiencia(getDadosTreino().experiencia());
-        }
-        else
-            System.out.println("Você não está disposto para brincar. Tente..."); //tentar criar uma execao de erro e ver o que esta abixo do esperado e dar uma solução. lembrar de adicionar nas outras atividades.
-    }
-
-    public void brincar(){
-        if(saude > 20 && energia >= 50 && saciedade >= 50){
-            setEnergia(getDadosBrincar().energia());
-            setSaciedade(getDadosBrincar().saciedade());
-            setExperiencia(getDadosBrincar().felicidade());
-
-            System.out.println("Você está brincando!");
-        }
-        else
-            System.out.println("Você não está disposto para brincar. Tente novamente..."); //tentar criar uma execao de erro e ver o que esta abixo do esperado e dar uma solução. lembrar de adicionar nas outras atividades.
-    }
-
-    /*public void alimentar(TipoAlimento alimento){
-        if(saude > 0 && saciedade < 90){
-            if(podeComer(alimento)){
-                if()
-            }
-        }
-    }
-
-    public void descansar(){
-        if(saude > 0 && energia < 90){
-            setEnergia(getDadosTreino().energia());
-            setSaciedade(getDadosTreino().saciedade());
-            setExperiencia(getDadosTreino().experiencia());
-        }
-        else
-            System.out.println("Você não está disposto para brincar. Tente..."); //tentar criar uma execao de erro e ver o que esta abixo do esperado e dar uma solução. lembrar de adicionar nas outras atividades.
-    } */
 }

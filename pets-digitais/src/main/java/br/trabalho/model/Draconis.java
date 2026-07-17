@@ -4,28 +4,36 @@ public class Draconis extends Criatura implements HE_voador {
 
     private static int totalDraconis = 0;
 
+    public Draconis(){
+        super();
+    }
+
     public Draconis(String nome) {
 
         super(nome, TipoCriatura.DRACONIS);
-
         totalDraconis++;
     }
 
-    @Override
-    public int getTotalEspecie(){
+    public Draconis(String nome, TipoCriatura tipoCriatura) {
+
+        super(nome, tipoCriatura);
+        totalDraconis++;
+    }
+
+    public static int getTotalDraconis(){
         return totalDraconis;
     }
 
     @Override
     public String toString(){
-        return "Nome: " + super.getNome() + "\nEspecie: Draconis" + "\nIdade: " + super.getIdade() + "\nNivel: " + super.getNivel();
+        return "Nome: " + super.getNome() + "\nNome Único: " + super.getNomeUnico() + "\nEspecie: Draconis" + "\nIdade: " + super.getIdade() + "\nNivel: " + super.getNivel();
     }
 
     @Override
-    public void atualizaTurno(){
-        super.setEnergia(-5);
-        super.setSaciedade(-4);
-        super.setFelicidade(-2);
+    public void aplicaDesgasteNatural(){
+        super.setEnergiaSoma(-5);
+        super.setSaciedadeSoma(-4);
+        super.setFelicidadeSoma(-2);
 
         super.calculaSaude();
     }
@@ -36,7 +44,7 @@ public class Draconis extends Criatura implements HE_voador {
         System.out.println(super.getNome() + " preparando pra voar...\n");
         System.out.println(super.getNome() + " esta voando sobre o reino!\n");
 
-        super.setFelicidade(10);
+        super.setFelicidadeSoma(10);
     }
 
     @Override
@@ -45,34 +53,58 @@ public class Draconis extends Criatura implements HE_voador {
     }
 
     @Override
-    public DadosTreino getDadosTreino(){
-        return new DadosTreino(35, 25, 15);
+    public void treinar(){
+        setExperienciaAtividade(35);
+        setEnergiaAtividade(25);
+        setSaciedadeAtividade(15);
+        System.out.println("Você está brincando!");
+        super.setUltimoFoiDescanso(false);
     }
 
     @Override
-    public DadosBrincar getDadosBrincar(){
-        return new DadosBrincar(20, 10, 5);
+    public void explorar(){
+        setExperienciaAtividade(20);
+        setEnergiaAtividade(15);
+        setSaciedadeAtividade(10);
+        setFelicidadeAtividade(5);
+        System.out.println("Você está brincando!");
+        super.setUltimoFoiDescanso(false);
     }
 
     @Override
-    public DadosExplorar getDadosExplorar(){
-        return new DadosExplorar(20, 15, 10, 5);
+    public void descansar(){
+        if(!super.getUltimoFoiDescanso()){
+            super.setEnergiaAtividade(30);
+            System.out.println("Você está descansando!");
+            super.setUltimoFoiDescanso(true);
+        }
     }
 
     @Override
-    public DadosDesafio getDadosDesafio(){
-        return new DadosDesafio(60, 30, 20, 10);
+    public void brincar(){
+        setFelicidadeAtividade(20);
+        setEnergiaAtividade(10);
+        setSaciedadeAtividade(5);
+        System.out.println("Você está brincando!");
+        super.setUltimoFoiDescanso(false);
+    }
+
+    @Override
+    public void desafio(){
+        setExperienciaAtividade(60);
+        setEnergiaAtividade(30);
+        setSaciedadeAtividade(20);
+        setFelicidadeAtividade(10);
+        super.setParticipouDesafio(true);
+    }
+
+    @Override
+    protected void evoluir(){
+        setEnergiaSoma(2);
     }
 
     @Override
     public int recuperarEnergia(){
         return 30;
     }
-    
-    /* @Override
-    public boolean podeComer(TipoAlimento alimento) {
-
-        return alimento == TipoAlimento.CARNE || alimento == TipoAlimento.FRUTAS || alimento == TipoAlimento.BANQUETEREAL;
-    } */
-
 }

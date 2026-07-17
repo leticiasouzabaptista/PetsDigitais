@@ -1,10 +1,12 @@
 package br.trabalho.model;
 
-import br.trabalho.Enum.Energia;
-
 public class Aquari extends Criatura implements HE_aquatico {
 
     private static int totalAquari = 0;
+
+    public Aquari(){
+        super();
+    }
 
     public Aquari(String nome) {
 
@@ -12,21 +14,20 @@ public class Aquari extends Criatura implements HE_aquatico {
         totalAquari++;
     }
 
-    @Override
-    public int getTotalEspecie() {
+    public static int getTotalAquari() {
         return totalAquari;
     }
 
     @Override
     public String toString(){
-        return "Nome: " + super.getNome() + "\nEspecie: Aquaris" + "\nIdade: " + super.getIdade() + "\nNivel: " + super.getNivel();
+        return "Nome: " + super.getNome() + "\nNome Único: " + super.getNomeUnico() + "\nEspecie: Aquaris" + "\nIdade: " + super.getIdade() + "\nNivel: " + super.getNivel();
     }
 
     @Override
-    public void atualizaTurno(){
-        super.setEnergia(-4);
-        super.setSaciedade(-3);
-        super.setFelicidade(-2);
+    public void aplicaDesgasteNatural(){
+        super.setEnergiaSoma(-4);
+        super.setSaciedadeSoma(-3);
+        super.setFelicidadeSoma(-2);
 
         super.calculaSaude();
     }
@@ -37,7 +38,7 @@ public class Aquari extends Criatura implements HE_aquatico {
         System.out.println(super.getNome() + " preparando para nadar...\n");
         System.out.println(super.getNome() + " esta mergulhando sobre os mares do reino!\n");
 
-        super.setFelicidade(10);
+        super.setFelicidadeSoma(10);
     }
 
     @Override
@@ -46,97 +47,59 @@ public class Aquari extends Criatura implements HE_aquatico {
     }
 
     @Override
-    public DadosTreino getDadosTreino(){
-        return new DadosTreino(25, 15, 10);
+    public void treinar(){
+        setExperienciaAtividade(25);
+        setEnergiaAtividade(15);
+        setSaciedadeAtividade(10);
+        System.out.println("Você está brincando!");
+        super.setUltimoFoiDescanso(false);
     }
 
     @Override
-    public DadosBrincar getDadosBrincar(){
-        return new DadosBrincar(20, 10, 5);
+    public void explorar(){
+        setExperienciaAtividade(20);
+        setEnergiaAtividade(10);
+        setSaciedadeAtividade(10);
+        setFelicidadeAtividade(5);
+        System.out.println("Você está brincando!");
+        super.setUltimoFoiDescanso(false);
     }
 
     @Override
-    public DadosExplorar getDadosExplorar(){
-        return new DadosExplorar(15, 10, 10, 5);
+    public void descansar(){
+        if(!super.getUltimoFoiDescanso()){
+            super.setEnergiaAtividade(25);
+            System.out.println("Você está descansando!");
+            super.setUltimoFoiDescanso(true);
+        }
     }
 
     @Override
-    public DadosDesafio getDadosDesafio(){
-        return new DadosDesafio(45, -20, 20, 10);
+    public void brincar(){
+        setFelicidadeAtividade(20);
+        setEnergiaAtividade(10);
+        setSaciedadeAtividade(5);
+        System.out.println("Você está brincando!");
+        super.setUltimoFoiDescanso(false);
+    }
+
+    @Override
+    public void desafio(){
+        setExperienciaAtividade(45);
+        setEnergiaAtividade(20);
+        setSaciedadeAtividade(20);
+        setFelicidadeAtividade(10);
+        super.setParticipouDesafio(true);
+    }
+
+    @Override
+    protected void evoluir(){
+        setEnergiaSoma(1);
+        setFelicidade(1);
     }
 
     @Override
     public int recuperarEnergia(){
         return 25;
     }
-
-    /* @Override
-    public boolean descansar(){
-        if(super.getSaude() > 0 && super.getEnergia() < 90 ){
-            if(!super.getUltimoFoiDescanso()){
-                super.setEnergia(30);
-                System.out.println("Você está descansando!");
-                super.setUltimoFoiDescanso(true);
-                return true;
-            }
-        }
-        else
-            System.out.println("Você ainda não esta cansado para descansar..."); //tentar criar uma execao de erro e ver o que esta abixo do esperado e dar uma solução. lembrar de adicionar nas outras atividades.
-        return false;
-
-        @Override
-    public boolean treinar(){
-        if(super.getSaude() > 40 && super.getEnergia() >= 20 && super.getSaciedade() >= 20){
-            super.setEnergia(25);
-            super.setSaciedade(15);
-            super.setExperiencia(10);
-
-            System.out.println("Você está treinando!");
-
-            return true;
-        }
-        else
-            System.out.println("Você não está disposto para treinar. Tente..."); //tentar criar uma execao de erro e ver o que esta abixo do esperado e dar uma solução. lembrar de adicionar nas outras atividades.
-        return false;
-    }
-
-    @Override
-    public boolean explorar(){
-        if(super.getSaude() > 20 && super.getEnergia() >= 15 && super.getSaciedade() >= 15){
-            super.setEnergia(10);
-            super.setSaciedade(10);
-            super.setExperiencia(15);
-            super.setFelicidade(5);
-
-            System.out.println("Você está explorando o reino!");
-
-            return true;
-        }
-        else
-            System.out.println("Você não está disposto para explorar. Tente..."); //tentar criar uma execao de erro e ver o que esta abixo do esperado e dar uma solução. lembrar de adicionar nas outras atividades.
-        return false;
-    }
-
-    @Override
-    public boolean brincar(){
-        if(super.getSaude() > 20 && super.getEnergia() >= 50 && super.getSaciedade() >= 50){
-            super.setFelicidade(20);
-            super.setSaciedade(5);
-            super.setEnergia(10);
-
-            System.out.println("Você está brincando!");
-
-            return true;
-        }
-        else
-            System.out.println("Você não está disposto para brincar. Tente novamente..."); //tentar criar uma execao de erro e ver o que esta abixo do esperado e dar uma solução. lembrar de adicionar nas outras atividades.
-        return false;
-    }
-    } */
-
-    /* @Override
-    public boolean podeComer(TipoAlimento alimento) {
-
-        return alimento == TipoAlimento.NECTARLUMINOSO || alimento == TipoAlimento.CRISTAISENERGETICOS || alimento == TipoAlimento.BANQUETEREAL;
-    } */
 }

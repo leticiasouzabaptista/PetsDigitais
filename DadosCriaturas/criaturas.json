@@ -1,0 +1,103 @@
+[ {
+  "nome" : "leticia",
+  "idade" : 0,
+  "nivel" : 0,
+  "experiencia" : 0,
+  "energia" : 99,
+  "saciedade" : 99,
+  "felicidade" : 99,
+  "saude" : 99,
+  "tipoCriatura" : "DRACONIS",
+  "ultimoFoiDescanso" : false,
+  "dadosTreino" : {
+    "experiencia" : 35,
+    "energia" : 25,
+    "saciedade" : 15
+  },
+  "dadosDesafio" : {
+    "experiencia" : 60,
+    "energia" : 30,
+    "saciedade" : 20,
+    "felicidade" : 10
+  },
+  "dadosExplorar" : {
+    "experiencia" : 20,
+    "energia" : 15,
+    "saciedade" : 10,
+    "felicidade" : 5
+  },
+  "totalEspecie" : 1,
+  "dadosBrincar" : {
+    "felicidade" : 20,
+    "energia" : 10,
+    "saciedade" : 5
+  }
+}, {
+  "nome" : "humbertp",
+  "idade" : 0,
+  "nivel" : 0,
+  "experiencia" : 0,
+  "energia" : 99,
+  "saciedade" : 99,
+  "felicidade" : 99,
+  "saude" : 99,
+  "tipoCriatura" : "AQUARI",
+  "ultimoFoiDescanso" : false,
+  "dadosTreino" : {
+    "experiencia" : 25,
+    "energia" : 15,
+    "saciedade" : 10
+  },
+  "dadosDesafio" : {
+    "experiencia" : 45,
+    "energia" : -20,
+    "saciedade" : 20,
+    "felicidade" : 10
+  },
+  "dadosExplorar" : {
+    "experiencia" : 15,
+    "energia" : 10,
+    "saciedade" : 10,
+    "felicidade" : 5
+  },
+  "totalEspecie" : 1,
+  "dadosBrincar" : {
+    "felicidade" : 20,
+    "energia" : 10,
+    "saciedade" : 5
+  }
+}, {
+  "nome" : "guilherme",
+  "idade" : 0,
+  "nivel" : 0,
+  "experiencia" : 0,
+  "energia" : 99,
+  "saciedade" : 99,
+  "felicidade" : 99,
+  "saude" : 99,
+  "tipoCriatura" : "DRACONISCELESTIAL",
+  "ultimoFoiDescanso" : false,
+  "dadosTreino" : {
+    "experiencia" : 35,
+    "energia" : 25,
+    "saciedade" : 15
+  },
+  "dadosDesafio" : {
+    "experiencia" : 60,
+    "energia" : 30,
+    "saciedade" : 20,
+    "felicidade" : 10
+  },
+  "dadosExplorar" : {
+    "experiencia" : 20,
+    "energia" : 15,
+    "saciedade" : 10,
+    "felicidade" : 5
+  },
+  "totalEspecie" : 1,
+  "dadosBrincar" : {
+    "felicidade" : 20,
+    "energia" : 10,
+    "saciedade" : 5
+  }
+} ]

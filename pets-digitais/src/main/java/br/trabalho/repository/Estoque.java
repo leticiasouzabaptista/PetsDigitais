@@ -1,11 +1,13 @@
-package br.trabalho.model;
+package br.trabalho.repository;
 
 import java.util.List;
 import java.util.Map;
+import br.trabalho.model.TipoAlimento;
+import br.trabalho.model.TipoCriatura;
 
-import br.trabalho.repository.CriaturaRepository;
-
-import java.util.ArrayList;
+import java.io.BufferedReader;
+import java.io.FileReader;
+import java.io.IOException;
 import java.util.HashMap;
 
 public class Estoque {
@@ -50,7 +52,7 @@ public class Estoque {
 
         for (TipoCriatura criatura: TipoCriatura.values()) {
 
-            int minimo = repository.quantidadeCriaturas(criatura) * 3;
+            int minimo = repository.quantidadeCriaturasVivas(criatura) * 3;
 
             int disponivel = calculaEstoqueDisponivel(criatura);
 
@@ -82,6 +84,32 @@ public class Estoque {
                 alimento,
                 estoque.get(alimento) + quantidadePorAlimento
             );
+        }
+    }
+
+    public void importarEstoque() throws IOException {
+
+        try (BufferedReader br = new BufferedReader(new FileReader("dadosEstoque/estoque.csv"))) {
+
+            br.readLine(); 
+
+            String linha;
+
+            while ((linha = br.readLine()) != null) {
+
+                if (linha.isBlank())
+                    continue;
+
+                String[] dados = linha.split(",");
+
+                String nome = dados[0].trim().toUpperCase().replace(" ", "");
+
+                TipoAlimento alimento = TipoAlimento.valueOf(nome);
+
+                int quantidade = Integer.parseInt(dados[1].trim());
+
+                estoque.put(alimento, quantidade);
+            }
         }
     }
 }

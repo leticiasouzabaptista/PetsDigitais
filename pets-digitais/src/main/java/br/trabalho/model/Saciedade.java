@@ -1,4 +1,4 @@
-package br.trabalho.Enum;
+package br.trabalho.model;
 
 public enum Saciedade {
 

@@ -18,6 +18,20 @@ public class Leituras {
         }
     }
 
+    public static String leNomeUnico(){
+        String texto;
+
+        while (true) {
+            texto = scanner.nextLine().trim();
+
+            if (texto.matches("^(?=.*[A-Za-z])(?=.*\\d)[A-Za-z\\d]+$")) {
+                return texto;
+            }
+
+            System.out.println("Erro! Digite uma palavra sem espaços que contenha pelo menos uma letra e um número.");
+        }
+    }
+
     public static int leInt(){
 
         boolean valido = false;

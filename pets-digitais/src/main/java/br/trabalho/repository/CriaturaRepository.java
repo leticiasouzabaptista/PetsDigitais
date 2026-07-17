@@ -2,98 +2,114 @@ package br.trabalho.repository;
 
 import br.trabalho.Exceptions.CriaturaNaoEncontradaException;
 import br.trabalho.model.*;
-import br.trabalho.util.Leituras;
 import java.util.List;
+import javax.swing.JFileChooser;
+import com.fasterxml.jackson.core.type.TypeReference;
 import com.fasterxml.jackson.databind.ObjectMapper;
-import java.util.ArrayList;
 import java.io.File;
 import java.io.IOException;
 import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
+import java.util.Map;
+import java.util.HashMap;
+import java.util.Iterator;
 
 
 public class CriaturaRepository {
 
-    private List <Criatura> criaturasVivas;
-    private List <Criatura> criaturasMortas;
+    private Map <String, Criatura> criaturasVivas;
+    private Map <String, Criatura> criaturasMortas;
     ObjectMapper objectMapper;
 
     public CriaturaRepository(){
-        criaturasVivas = new ArrayList<>();
-        criaturasMortas = new ArrayList<>();
+        criaturasVivas = new HashMap<>();
+        criaturasMortas = new HashMap<>();
         objectMapper = new ObjectMapper();
     }
 
     private void atualizaListas(){
 
-        for(Criatura criatura: criaturasVivas){
-            if(criatura.getSaude() <= 0){
-                criaturasMortas.add(criatura);
-                criaturasVivas.remove(criatura);
+        Iterator<Criatura> iterator = criaturasVivas.values().iterator();
+
+        while (iterator.hasNext()) {
+            Criatura criatura = iterator.next();
+
+            if (criatura.getSaude() <= 0) {
+                criaturasMortas.put(criatura.getNomeUnico(), criatura);
+                iterator.remove(); 
             }
         }
     }
 
-    public int quantidadeCriaturas(TipoCriatura especie) {
+    public int quantidadeCriaturasVivas(TipoCriatura especie) {
 
         int contador = 0;
-
-        for (Criatura criatura : criaturasVivas) {
-
-            if (criatura.getTipoCriatura() == especie)
-                contador++;
+        for (Criatura criatura : criaturasVivas.values()) {
+            if (criatura.getTipoCriatura() != null) {
+                String nomeEspecieCriatura = criatura.getTipoCriatura().name();
+                
+                if (nomeEspecieCriatura.equalsIgnoreCase(especie.name())) {
+                    contador++;
+                }
+            }
         }
         return contador;
     }
 
-    public void salvaCriatura(Criatura criatura){
-        criaturasVivas.add(criatura);
+    public int totalCriaturasMortas(){
+        atualizaListas();
+        return criaturasMortas.size();
     }
 
-    public Criatura getCriatura(String nome){
+    public int totalCriaturasVivas(){
+        atualizaListas();
+        return criaturasVivas.size();
+    }
 
-        for(Criatura criatura: criaturasVivas){
-            if(criatura.getNome().equals(nome))
-                return criatura;
-        }
+    public int totalCriaturas() {
+        return criaturasMortas.size() + criaturasVivas.size();
+    }
 
-        return null;
+    public void salvaCriatura(Criatura criatura){
+        criaturasVivas.put(criatura.getNomeUnico(), criatura);
+        atualizaListas();
+    }
+
+   
+    public Criatura getCriatura(String nomeUnico){
+
+        if(criaturasVivas.containsKey(nomeUnico))
+            return criaturasVivas.get(nomeUnico);
+
+        if(criaturasMortas.containsKey(nomeUnico))
+            return criaturasMortas.get(nomeUnico);
+
+        throw new CriaturaNaoEncontradaException();
     }
 
     public void verificaCriaturaExiste(Criatura criatura){
         
-        for(Criatura pet: criaturasVivas){
-            if(pet.getNome().equals(criatura.getNome()))
-                return;
-        }
-
-        for(Criatura pet: criaturasMortas){
-            if(pet.getNome().equals(criatura.getNome()))
-                return;
+        if(criaturasVivas.containsKey(criatura.getNomeUnico())|| criaturasMortas.containsKey(criatura.getNomeUnico())){
+            return;
         }
 
         throw new CriaturaNaoEncontradaException();
     }
 
     public void verificaCriaturaMorta(Criatura criatura){
-        
-        for(Criatura pet: criaturasMortas){
-            if(pet.getNome().equals(criatura.getNome()))
-                throw new CriaturaNaoEncontradaException();return;
-        }
-        return;
+        if(criaturasMortas.containsKey(criatura.gerarNomeUnico()))
+            return;// arrumar esse e o de cim, não é legal deixar só return
     }
 
-    public List<Criatura> getCriaturas(){
-        return new ArrayList<>(criaturasVivas);
+    public Map<String, Criatura> getCriaturas(){
+        return new HashMap<>(criaturasVivas);
     }
 
     public void removeCriatura(Criatura criatura){
-        //lembrar de colocar a especie aqui também
-        if(criaturasVivas.removeIf(pet -> pet.getNome() == criatura.getNome()))
+        if(criaturasVivas.values().removeIf(pet -> pet.getNome() == criatura.getNome()))
             System.out.println("Pet " + criatura.getNome() + " removida do Reino.");
         else
-            System.out.println("Criatura não encontrada no reino.");
+            throw new CriaturaNaoEncontradaException();
     }
 
     public void exportarCriaturas() throws IOException{
@@ -107,5 +123,22 @@ public class CriaturaRepository {
         File arquivo = new File(pasta, "criaturas_" + data + ".json");
         objectMapper.writerWithDefaultPrettyPrinter().writeValue(arquivo, criaturasVivas);
         //aqui ta salvando no projeto, mas também posso fazer escolhendo em qua pasta vai ser salva a exportaçaõ jfilechooser.
+    }
+
+    public void importarCriaturas() throws IOException{
+        JFileChooser chooser = new JFileChooser();
+        int opcao = chooser.showOpenDialog(null);
+
+        if (opcao == JFileChooser.APPROVE_OPTION) {
+            File arquivo = chooser.getSelectedFile();
+            List<Criatura> criaturasImportadas = objectMapper.readValue(arquivo, new TypeReference<List<Criatura>>(){});
+
+            for (Criatura criatura : criaturasImportadas) {
+                if (criatura.getNomeUnico() == null) 
+                    criatura.setNomeUnico(criatura.gerarNomeUnico());
+                criatura.calculaSaude(); 
+                criaturasVivas.put(criatura.getNomeUnico(), criatura);
+            }
+        }
     }
 }
