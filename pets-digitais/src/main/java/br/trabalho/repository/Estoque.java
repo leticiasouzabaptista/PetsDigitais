@@ -4,7 +4,6 @@ import java.util.List;
 import java.util.Map;
 import br.trabalho.model.TipoAlimento;
 import br.trabalho.model.TipoCriatura;
-
 import java.io.BufferedReader;
 import java.io.FileReader;
 import java.io.IOException;
@@ -87,7 +86,7 @@ public class Estoque {
         }
     }
 
-    public void importarEstoque() throws IOException {
+    /* public void importarEstoque() throws IOException {
 
         try (BufferedReader br = new BufferedReader(new FileReader("dadosEstoque/estoque.csv"))) {
 
@@ -111,5 +110,5 @@ public class Estoque {
                 estoque.put(alimento, quantidade);
             }
         }
-    }
+    } */
 }

@@ -1,7 +1,6 @@
 package br.trabalho.model;
 
 import java.io.IOException;
-
 import br.trabalho.repository.CriaturaRepository;
 import br.trabalho.repository.Estoque;
 
@@ -17,17 +16,7 @@ public class Mundo {
         estoque = new Estoque();
         this.unidadesTempo = 0;
         this.turno = 0;
-        importarEstoque();
-    }
-
-    public void importarEstoque() {
-
-        try {
-            getEstoque().importarEstoque();
-            System.out.println("\nImportação realizada com sucesso!");
-        } catch (IOException e) {
-            System.out.println("\nErro ao importar estoque: " + e.getMessage());
-        }
+        //importarEstoque();
     }
 
     public int getTurno(){
@@ -56,4 +45,14 @@ public class Mundo {
     private void avancaTurno(){
         this.turno++;
     }
+
+    /* public void importarEstoque() {
+
+        try {
+            getEstoque().importarEstoque();
+            System.out.println("\nImportação realizada com sucesso!");
+        } catch (IOException e) {
+            System.out.println("\nErro ao importar estoque: " + e.getMessage());
+        }
+    } */
 }
