@@ -2,6 +2,7 @@ package br.trabalho.model;
 
 import com.fasterxml.jackson.annotation.JsonTypeInfo;
 import java.util.HashSet;
+import java.util.Objects;
 import java.util.Random;
 import java.util.Set;
 import com.fasterxml.jackson.annotation.JsonIgnore;
@@ -67,6 +68,37 @@ public abstract class Criatura {
         this.ultimoFoiDescanso = false;
         this.participouDesafio = false;
         this.nomeUnico = this.gerarNomeUnico();
+    }
+
+    @Override
+    public boolean equals(Object obj) {
+
+        if (!(obj instanceof Criatura))
+            return false;
+
+        Criatura outra = (Criatura) obj;
+
+        return idade == outra.getIdade() &&
+            nivel == outra.getNivel() &&
+            experiencia == outra.getExperiencia() &&
+            energia == outra.getEnergia() &&
+            saciedade == outra.getSaciedade() &&
+            felicidade == outra.getFelicidade() &&
+            saude == outra.getSaude();
+    }
+
+    @Override
+    public int hashCode() {
+        return Objects.hash(
+            nome,
+            idade,
+            nivel,
+            experiencia,
+            energia,
+            saciedade,
+            felicidade,
+            saude,
+            especie);
     }
 
     public String gerarNomeUnico(){

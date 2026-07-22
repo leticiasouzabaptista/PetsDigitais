@@ -42,7 +42,7 @@ public class Fungari extends Criatura {
         setExperienciaAtividade(25);
         setEnergiaAtividade(15);
         setSaciedadeAtividade(10);
-        System.out.println("Você está brincando!");
+        System.out.println("Você está treinando!");
         super.setUltimoFoiDescanso(false);
     }
 
@@ -52,7 +52,7 @@ public class Fungari extends Criatura {
         setEnergiaAtividade(5);
         setSaciedadeAtividade(5);
         setFelicidadeAtividade(5);
-        System.out.println("Você está brincando!");
+        System.out.println("Você está explorando!");
         super.setUltimoFoiDescanso(false);
     }
 

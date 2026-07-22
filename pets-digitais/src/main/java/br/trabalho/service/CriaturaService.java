@@ -10,11 +10,10 @@ import br.trabalho.model.Lumini;
 import br.trabalho.model.Mecanis;
 import br.trabalho.model.Mundo;
 import br.trabalho.model.TipoAlimento;
-import br.trabalho.util.Formatacao;
 import br.trabalho.util.Leituras;
 
 public class CriaturaService {
-
+    
     private Mundo mundo;
 
     public CriaturaService(Mundo mundo){
@@ -26,10 +25,7 @@ public class CriaturaService {
         System.out.print("\nNome: ");
         String nome = Leituras.leFrase();
 
-        System.out.println("╔══════════════════════════════╗");
-        Formatacao.imprimirCentralizado("Escolha uma Espécie");
-        System.out.println("╚══════════════════════════════╝");
-
+        System.out.println("===== Escolha uma espécie =====");
         System.out.print("\n1. Draconis\nCriaturas descendentes dos antigos dragões. Possuem grande vitalidade e aprendem habilidades mais rapidamente que as demais espécies.\n");
         System.out.print("\n2. Lumini\nCriaturas formadas por energia luminosa. Recuperam a felicidade rapidamente, porém se cansam com maior facilidade.\n");
         System.out.print("\n3. Fungari\nSeres inspirados em fungos mágicos. Possuem grande resistência à fome e ao cansaço, mas evoluem mais lentamente.\n");
@@ -57,6 +53,7 @@ public class CriaturaService {
                 System.out.println("\nCriatura criada com sucesso!");
                 mundo.getCriaturaRepository().getCriatura(criatura.getNomeUnico()).exibeInformacoes();
                 opcaoValida = true;
+                break;
                 }
             case 3:{
                 Criatura criatura = new Fungari(nome);
@@ -64,6 +61,7 @@ public class CriaturaService {
                 System.out.println("\nCriatura criada com sucesso!");
                 mundo.getCriaturaRepository().getCriatura(criatura.getNomeUnico()).exibeInformacoes();
                 opcaoValida = true;
+                break;
                 }
             case 4:{
                 Criatura criatura = new Aquari(nome);
@@ -71,6 +69,7 @@ public class CriaturaService {
                 System.out.println("\nCriatura criada com sucesso!");
                 mundo.getCriaturaRepository().getCriatura(criatura.getNomeUnico()).exibeInformacoes();
                 opcaoValida = true;
+                break;
                 }
             case 5:{
                 Criatura criatura = new Mecanis(nome);
@@ -78,6 +77,7 @@ public class CriaturaService {
                 System.out.println("\nCriatura criada com sucesso!");
                 mundo.getCriaturaRepository().getCriatura(criatura.getNomeUnico()).exibeInformacoes();
                 opcaoValida = true;
+                break;
                 }
             case 6:{
                 Criatura criatura = new DraconisCelestial(nome);
@@ -85,6 +85,7 @@ public class CriaturaService {
                 System.out.println("\nCriatura criada com sucesso!");
                 mundo.getCriaturaRepository().getCriatura(criatura.getNomeUnico()).exibeInformacoes();
                 opcaoValida = true;
+                break;
                 }
             default:{
                 System.out.println("Opção não válida.\nTente novamente.");
@@ -116,7 +117,6 @@ public class CriaturaService {
     }
 
     public void exibeSatus(Criatura criatura){
-
         mundo.getCriaturaRepository().verificaCriaturaExiste(criatura);
         criatura.exibeEstadoAtual();
     }
@@ -187,7 +187,7 @@ public class CriaturaService {
             mundo.avancaTempo();
         }
         else
-            System.out.println("Você ainda não esta cansado para descansar...");
+            System.out.println("Você ainda não esta cansado para...");
     }
 
     public void desafio(Criatura criatura){

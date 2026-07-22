@@ -22,6 +22,7 @@ public class CriaturaRepository {
     ObjectMapper objectMapper;
 
     public CriaturaRepository(){
+
         criaturasVivas = new HashMap<>();
         criaturasMortas = new HashMap<>();
         objectMapper = new ObjectMapper();
@@ -71,6 +72,11 @@ public class CriaturaRepository {
     }
 
     public void salvaCriatura(Criatura criatura){
+
+        for (Criatura c : criaturasVivas.values()) {
+            if (c.equals(criatura))
+                return; 
+        }
         criaturasVivas.put(criatura.getNomeUnico(), criatura);
         atualizaListas();
     }

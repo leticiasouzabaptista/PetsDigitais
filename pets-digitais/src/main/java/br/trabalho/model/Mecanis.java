@@ -51,7 +51,7 @@ public class Mecanis extends Criatura implements HE_mecanico {
         setExperienciaAtividade(40);
         setEnergiaAtividade(15);
         setSaciedadeAtividade(20);
-        System.out.println("Você está brincando!");
+        System.out.println("Você está treinando!");
         super.setUltimoFoiDescanso(false);
     }
 
@@ -61,7 +61,7 @@ public class Mecanis extends Criatura implements HE_mecanico {
         setEnergiaAtividade(10);
         setSaciedadeAtividade(15);
         setFelicidadeAtividade(5);
-        System.out.println("Você está brincando!");
+        System.out.println("Você está explorando!");
         super.setUltimoFoiDescanso(false);
     }
 

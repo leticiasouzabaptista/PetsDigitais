@@ -19,4 +19,19 @@ public enum TipoAlimento {
     public int getModificadorSaciedade(){
         return saciedade;
     }
+
+    public static TipoAlimento converterDeTexto(String texto) {
+
+        if (texto == null) 
+            return null;
+        String textoFormatado = texto.trim().replace(" ", "").toUpperCase();
+
+        for (TipoAlimento tipo : TipoAlimento.values()) {
+            if (tipo.name().equals(textoFormatado)) {
+                return tipo;
+            }
+        }
+        
+        return null;
+    }
 }

@@ -1,7 +1,6 @@
 package br.trabalho.menu;
 
 import br.trabalho.service.CriaturaService;
-import br.trabalho.util.Formatacao;
 import br.trabalho.util.Leituras;
 import br.trabalho.model.Criatura;
 import br.trabalho.model.Estatisticas;
@@ -33,24 +32,26 @@ public class Menu {
     }
 
     public void imprimeCriaturasMenu(){
-        System.out.println("\n1. Criar Pet\n2. Importar Pets\n3. Exportar Pets\n4. Exibir Pets Cadastrados\n5. Remover Pet do Sistema\n6. Exibir Informacoes do Pet\n7. Exibir Status completo do Pet\n8. Realizar Atividades com o Pet");
+
+        System.out.println("\n===== Pets =====");
+        System.out.println("1. Criar Pet\n2. Importar Pets\n3. Exportar Pets\n4. Exibir Pets Cadastrados\n5. Remover Pet do Sistema\n6. Exibir Informacoes do Pet\n7. Exibir Status completo do Pet\n8. Realizar Atividades com o Pet");
     }
 
     public void imprimeAtividadesMenu(){
         
-        System.out.println("\n1. Alimentar\n2. Brincar\n3. Dormir\n4. Treinar\n5. Participar de Desafio\n6. Realizar Atividade Especial");
+        System.out.println("\n===== Realizar Atividade =====");
+        System.out.println("1. Alimentar\n2. Brincar\n3. Dormir\n4. Treinar\n5. Participar de Desafio\n6. Realizar Atividade Especial");
     }
 
     public void imprimeEstatisticasMenu(){
         
-        System.out.println("\n╔══════════════════════════════╗");
-        Formatacao.imprimirCentralizado("Estatísticas");
-        System.out.println("╚══════════════════════════════╝");
-        System.out.println("\n1. Exibe estatísticas do sistema\n2. Exportar estatísticas do sistema");
+        System.out.println("\n===== Estatísticas =====");
+        System.out.println("1. Exibe estatísticas do sistema\n2. Exportar estatísticas do sistema");
     }
 
     public void imprimeAlimentosMenu(){
-        System.out.println("\n1. Frutas\n2. Carne\n3. Fótons\n4. Néctar Luminoso\n5. Cogmuelos\n6. Cristais Energéticos\n7. Banquete Real");
+        System.out.println("\n===== Alimentos =====");
+        System.out.println("1. Frutas\n2. Carne\n3. Fótons\n4. Néctar Luminoso\n5. Cogmuelos\n6. Cristais Energéticos\n7. Banquete Real");
     }
 
     public void criaturasMenu(){
@@ -151,7 +152,7 @@ public class Menu {
                     estatisticas.imprimeEstatisticas();
                     break;
                 case 2:
-                    criaturaService.brincar(null);
+                    estatisticas.exportarEstatisticas();
                     break;
                 default:{
                     System.out.print("\nOpcão não válida, tente novamente: ");

@@ -1,5 +1,12 @@
 package br.trabalho.model;
 
+import java.io.File;
+import java.io.FileWriter;
+import java.io.IOException;
+import java.io.PrintWriter;
+import java.time.LocalDateTime;
+import java.time.format.DateTimeFormatter;
+
 public class Estatisticas {
 
     private Mundo mundo;
@@ -165,9 +172,7 @@ public class Estatisticas {
     public void imprimeEstatisticas() {
 
         atualizar();
-
-        System.out.println("========== ESTATÍSTICAS ==========");
-        System.out.println("Turno: " + getTurno());
+        System.out.println("\nTurno: " + getTurno());
         System.out.println();
         System.out.println("Total de criaturas: " + getTotalCriaturas());
         System.out.println("Criaturas vivas: " + getTotalCriaturasVivas());
@@ -186,6 +191,36 @@ public class Estatisticas {
 
         if (criaturaMenorNivel != null)
             System.out.println("Menor nível: " + criaturaMenorNivel.getNome() + " (Nível " + criaturaMenorNivel.getNivel() + ")");
-        System.out.println("Itens no estoque: " + tamanhoEstoque);
+        System.out.println("Itens no estoque: " + getTamanhoEstoque());
+    }
+
+    public void exportarEstatisticas() {
+        LocalDateTime agora = LocalDateTime.now();
+        DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyy-MM-dd_HH-mm-ss");
+        String data = agora.format(formatter);
+
+        File pasta = new File("Estatisticas");
+        pasta.mkdirs();
+
+        File arquivo = new File(pasta, "estatisticas_" + data + ".csv");
+
+        try (PrintWriter writer = new PrintWriter(new FileWriter(arquivo))) {
+            writer.println("chave,valor");
+            writer.println("Turno Atual," + getTurno());
+            writer.println("Total de criaturas," + getTotalCriaturas());
+            writer.println("Criaturas vivas," + getTotalCriaturasVivas());
+            writer.println("Criaturas mortas," + getTotalCriaturasMortas());
+            writer.println("Aquari," + getTotalAquari());
+            writer.println("Draconis," + getTotalDraconis());
+            writer.println("Draconis Celestial," + getTotalDraconisCelestial());
+            writer.println("Lumini," + getTotalLumini());
+            writer.println("Fungari," + getTotalFungari());
+            writer.println("Mecanis," + getTotalMecanis());
+            writer.println("Tamanho do estoque," + getTamanhoEstoque());
+            
+            System.out.println("Estatísticas exportadas com sucesso!");
+        } catch (IOException e) {
+            System.err.println("Erro ao tentar salvar o arquivo CSV: " + e.getMessage());
+        }
     }
 }

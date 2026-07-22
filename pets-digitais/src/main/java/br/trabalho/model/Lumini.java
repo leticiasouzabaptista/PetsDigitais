@@ -51,7 +51,7 @@ public class Lumini extends Criatura implements HE_luminescente {
         setExperienciaAtividade(25);
         setEnergiaAtividade(20);
         setSaciedadeAtividade(10);
-        System.out.println("Você está brincando!");
+        System.out.println("Você está treinando!");
         super.setUltimoFoiDescanso(false);
     }
 
@@ -61,7 +61,7 @@ public class Lumini extends Criatura implements HE_luminescente {
         setEnergiaAtividade(10);
         setSaciedadeAtividade(5);
         setFelicidadeAtividade(10);
-        System.out.println("Você está brincando!");
+        System.out.println("Você está explorando!");
         super.setUltimoFoiDescanso(false);
     }
 

@@ -51,7 +51,7 @@ public class Aquari extends Criatura implements HE_aquatico {
         setExperienciaAtividade(25);
         setEnergiaAtividade(15);
         setSaciedadeAtividade(10);
-        System.out.println("Você está brincando!");
+        System.out.println("Você está treinando!");
         super.setUltimoFoiDescanso(false);
     }
 
@@ -61,7 +61,7 @@ public class Aquari extends Criatura implements HE_aquatico {
         setEnergiaAtividade(10);
         setSaciedadeAtividade(10);
         setFelicidadeAtividade(5);
-        System.out.println("Você está brincando!");
+        System.out.println("Você está explorando!");
         super.setUltimoFoiDescanso(false);
     }
 

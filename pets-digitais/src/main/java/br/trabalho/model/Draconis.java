@@ -57,7 +57,7 @@ public class Draconis extends Criatura implements HE_voador {
         setExperienciaAtividade(35);
         setEnergiaAtividade(25);
         setSaciedadeAtividade(15);
-        System.out.println("Você está brincando!");
+        System.out.println("Você está treinando!");
         super.setUltimoFoiDescanso(false);
     }
 
@@ -67,7 +67,7 @@ public class Draconis extends Criatura implements HE_voador {
         setEnergiaAtividade(15);
         setSaciedadeAtividade(10);
         setFelicidadeAtividade(5);
-        System.out.println("Você está brincando!");
+        System.out.println("Você está explorando!");
         super.setUltimoFoiDescanso(false);
     }
 

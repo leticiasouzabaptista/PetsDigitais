@@ -1,0 +1,13 @@
+{
+  "joao2317" : {
+    "nome" : "joao",
+    "idade" : 0,
+    "nivel" : 0,
+    "experiencia" : 0,
+    "energia" : 89,
+    "saciedade" : 94,
+    "felicidade" : 79,
+    "saude" : 87,
+    "tipoCriatura" : "Draconis"
+  }
+}

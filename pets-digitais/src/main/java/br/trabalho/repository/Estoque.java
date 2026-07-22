@@ -15,30 +15,21 @@ public class Estoque {
     private CriaturaRepository repository;
 
     public Estoque(){
-        estoque = new HashMap();
-
-        estoque.put(TipoAlimento.FRUTAS, 0);
-        estoque.put(TipoAlimento.CARNE, 0);
-        estoque.put(TipoAlimento.NECTARLUMINOSO, 0);
-        estoque.put(TipoAlimento.FOTONS, 0);
-        estoque.put(TipoAlimento.COGUMELOS, 0);
-        estoque.put(TipoAlimento.CRISTAISENERGETICOS, 0);
-        estoque.put(TipoAlimento.BANQUETEREAL, 0);
+        estoque = new HashMap<>();
     }
 
     public int getQuantidadeEstoque(){
         return estoque.size();
-        //se tiver vazio
     }
 
     public void imprimeEstoque(){
-        System.out.println("\nFrutas: " + estoque.get(TipoAlimento.FRUTAS) + 
-        "\nCarne " + estoque.get(TipoAlimento.CARNE) + 
-        "\nFotons: " + estoque.get(TipoAlimento.FOTONS) + 
-        "\nNectar Luminoso: " + estoque.get(TipoAlimento.NECTARLUMINOSO) + 
-        "\nCogumelos: " + estoque.get(TipoAlimento.COGUMELOS) +
-        "\nCristais Energéticos: " + estoque.get(TipoAlimento.CRISTAISENERGETICOS) + 
-        "\nBanquete Real: " + estoque.get(TipoAlimento.BANQUETEREAL));
+        System.out.println("\nFrutas: " + estoque.getOrDefault(TipoAlimento.FRUTAS, 0) + 
+        "\nCarne: " + estoque.getOrDefault(TipoAlimento.CARNE, 0) + 
+        "\nFótons: " + estoque.getOrDefault(TipoAlimento.FOTONS, 0) + 
+        "\nNéctar Luminoso: " + estoque.getOrDefault(TipoAlimento.NECTARLUMINOSO, 0) + 
+        "\nCogumelos: " + estoque.getOrDefault(TipoAlimento.COGUMELOS, 0) +
+        "\nCristais Energéticos: " + estoque.getOrDefault(TipoAlimento.CRISTAISENERGETICOS, 0) + 
+        "\nBanquete Real: " + estoque.getOrDefault(TipoAlimento.BANQUETEREAL, 0));
     }
 
     public boolean existeNoEstoque(TipoAlimento alimento){
@@ -77,38 +68,45 @@ public class Estoque {
 
         int quantidadePorAlimento = 10 / alimentos.size();
 
-        for(TipoAlimento alimento : alimentos){
-
-            estoque.put(
-                alimento,
-                estoque.get(alimento) + quantidadePorAlimento
-            );
-        }
+        for(TipoAlimento alimento : alimentos)
+            estoque.put( alimento, estoque.get(alimento) + quantidadePorAlimento);
     }
 
-    /* public void importarEstoque() throws IOException {
+    public void carregarAlimento(TipoAlimento tipo, int quantidade){
+        estoque.put(tipo, estoque.get(tipo) + quantidade);
+    }
 
-        try (BufferedReader br = new BufferedReader(new FileReader("dadosEstoque/estoque.csv"))) {
+    public void carregarEstoque(String caminhoArquivo, Estoque estoque) {
 
-            br.readLine(); 
-
+        try (BufferedReader br = new BufferedReader(new FileReader(caminhoArquivo))) {
+            
             String linha;
+            br.readLine();
 
             while ((linha = br.readLine()) != null) {
-
-                if (linha.isBlank())
+                if (linha.trim().isEmpty())
                     continue;
 
-                String[] dados = linha.split(",");
+                String[] colunas = linha.split(",");
 
-                String nome = dados[0].trim().toUpperCase().replace(" ", "");
+                String nomeTexto = colunas[0].trim();
+                int quantidade = Integer.parseInt(colunas[1].trim());
 
-                TipoAlimento alimento = TipoAlimento.valueOf(nome);
+                TipoAlimento tipo = TipoAlimento.converterDeTexto(nomeTexto);
 
-                int quantidade = Integer.parseInt(dados[1].trim());
-
-                estoque.put(alimento, quantidade);
+                if (tipo != null) {
+                    estoque.carregarAlimento(tipo, quantidade);
+                } else {
+                    System.err.println("Aviso: Alimento não reconhecido no CSV: " + nomeTexto);
+                }
             }
+            System.out.println("Estoque carregado com sucesso do CSV!");
+        } 
+        catch (IOException e) {
+            System.err.println("Erro ao abrir ou ler o arquivo CSV: " + e.getMessage());
+        } 
+        catch (NumberFormatException e) {
+            System.err.println("Erro ao converter valor numérico no CSV: " + e.getMessage());
         }
-    } */
+    }
 }
